@@ -19,7 +19,7 @@ if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
     app.use(morgan('dev'));
 }
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running'} ))
+app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
 
 app.use('/user', userRoutes)
 
