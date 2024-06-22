@@ -11,7 +11,7 @@
     "watch:build": "tsc --watch",
     "watch:server": "nodemon './dist/app' --watch './dist'",
     "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
-    "nowatch-start": "npm-run-all clean build --parallel nodemon './dist/app' --print-label"
+    "nowatch-start": "npm-run-all clean build --parallel nodemon ./dist/app --print-label"
   },
   "keywords": [],
   "author": "",
