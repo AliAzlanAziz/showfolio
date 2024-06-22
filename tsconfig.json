@@ -4,7 +4,7 @@
       "module": "commonjs",                                /* Specify what module code is generated. */
       "rootDir": "src",                                  /* Specify the root folder within your source files. */
       "typeRoots": [ "./src/types", "./node_modules/@types" ],                                  /* Specify multiple folders that act like './node_modules/@types'. */
-      "outDir": "./public",                                   /* Specify an output folder for all emitted files. */
+      "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
       "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
       "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
   
