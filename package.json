@@ -4,14 +4,14 @@
   "description": "",
   "main": "./dist/app",
   "scripts": {
-    "run-build": "node build/app.js",
+    "run-build": "node dist/app.js",
     "run-tsc": "nodemon --exec ts-node --files src/app.ts",
     "clean": "rimraf dist",
     "build": "tsc",
     "watch:build": "tsc --watch",
-    "watch:server": "nodemon './dist/app' --watch './dist'",
+    "watch:server": "nodemon './dist/app.js' --watch './dist'",
     "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
-    "nowatch-start": "npm-run-all clean build --parallel nodemon ./dist/app --print-label"
+    "nowatch-start": "npm-run-all clean build run-build"
   },
   "keywords": [],
   "author": "",
