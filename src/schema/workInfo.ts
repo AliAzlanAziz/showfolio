@@ -1,4 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
+import { WorkInfoType } from '../enums/workInfoType.enum';
+import { JobModeType } from '../enums/jobModeType.enum';
 
 const workInfoSchema = new Schema({
     _id: {
@@ -11,7 +13,12 @@ const workInfoSchema = new Schema({
     },
     type: {
         type: Number,
-        required: true
+        required: true,
+        enum: [WorkInfoType.EDUCATION, WorkInfoType.EXPERIENCE, WorkInfoType.CERTIFICATE]
+    },
+    jobMode: {
+        type: Number,
+        enum: [JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID]
     },
     title: { // degree, designation, certificate name
         type: String,

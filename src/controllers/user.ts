@@ -21,6 +21,10 @@ const postWorkInfo = (req: Request, res: Response, next: NextFunction) => {
   return userService.CreateWorkInfo(req.body.workInfo, req.context, res)
 }
 
+const putWorkInfo = (req: Request, res: Response, next: NextFunction) => {
+  return userService.UpdateWorkInfo(req.body.workInfo, req.context, res)
+}
+
 const getWorkInfo = (req: Request, res: Response, next: NextFunction) => {
   return userService.getWorkInfo(req.query.type, req.context, res)
 }
@@ -31,5 +35,6 @@ export default {
   postSignin,
   getProfile,
   postWorkInfo,
+  putWorkInfo,
   getWorkInfo
 }

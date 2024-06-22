@@ -1,9 +1,11 @@
+import { JobModeType } from "../enums/jobModeType.enum";
 import { WorkInfoType } from "../enums/workInfoType.enum";
 
 export class WorkInfoModel {
-    _id: string;
+    id: string;
     user: string;
     type: WorkInfoType;
+    jobMode: JobModeType;
     title: string;
     place_name: string;
     from: string;
