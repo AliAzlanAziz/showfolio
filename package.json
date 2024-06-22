@@ -2,14 +2,14 @@
   "name": "showfolio-api",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index",
+  "main": "./public/index",
   "scripts": {
-    "run-build": "node dist/index.js",
+    "run-build": "node public/index.js",
     "run-tsc": "nodemon --exec ts-node --files src/index.ts",
-    "clean": "rimraf dist",
+    "clean": "rimraf public",
     "build": "tsc",
     "watch:build": "tsc --watch",
-    "watch:server": "nodemon './dist/index.js' --watch './dist'",
+    "watch:server": "nodemon './public/index.js' --watch './public'",
     "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
     "nowatch-start": "npm-run-all clean build"
   },
