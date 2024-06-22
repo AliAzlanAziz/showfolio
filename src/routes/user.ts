@@ -12,4 +12,8 @@ router.post('/signin', userController.postSignin);
 
 router.get('/profile', isAuthenticated, userController.getProfile);
 
+router.post('/workinfo', isAuthenticated, userController.postWorkInfo);
+
+router.get('/workinfo', isAuthenticated, userController.getWorkInfo);
+
 export default router;

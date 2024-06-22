@@ -6,7 +6,8 @@ const workInfoSchema = new Schema({
     },
     user: {
         type: Types.ObjectId,
-        ref: 'user'
+        ref: 'User',
+        required: true
     },
     type: {
         type: Number,
@@ -50,6 +51,6 @@ const workInfoSchema = new Schema({
     }
 })
 
-const workInfo = model('workInfo', workInfoSchema);
+const WorkInfo = model('WorkInfo', workInfoSchema);
 
-export default workInfo;
+export default WorkInfo;
