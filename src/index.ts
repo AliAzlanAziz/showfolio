@@ -15,7 +15,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors());
 
-if(process.env.NODE_ENV == 'developement') {
+if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
     app.use(morgan('dev'));
 }
 
