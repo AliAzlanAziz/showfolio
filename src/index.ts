@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectDB  from './config/db';
 import userRoutes from './routes/user';
 import workInfoRoutes from './routes/workInfo';
+import projectRoutes from './routes/project';
 
 dotenv.config({ path: __dirname + '/config/config.env' })
 
@@ -24,6 +25,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200
 
 app.use('/user', userRoutes)
 app.use('/workInfo', workInfoRoutes)
+app.use('/project', projectRoutes)
 
 app.listen(process.env.PORT, () =>
     console.log(`Server ready at http://localhost:${process.env.PORT}`)

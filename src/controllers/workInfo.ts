@@ -6,7 +6,7 @@ const postWorkInfo = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const putWorkInfo = (req: Request, res: Response, next: NextFunction) => {
-  return workInfoService.UpdateWorkInfo(req.body.workInfo, req.context, res)
+  return workInfoService.UpdateWorkInfo(req.body.workInfo, res)
 }
 
 const getWorkInfo = (req: Request, res: Response, next: NextFunction) => {

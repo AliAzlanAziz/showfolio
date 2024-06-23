@@ -6,7 +6,8 @@ const projectSchema = new Schema({
     },
     user: {
         type: Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
+        required: true
     },
     title: {
         type: String,
@@ -20,7 +21,7 @@ const projectSchema = new Schema({
         min: 1,
         max: 512
     },
-    work_done: { 
+    workDone: { 
         type: String,
     },
     from: { 

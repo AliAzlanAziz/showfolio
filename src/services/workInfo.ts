@@ -51,7 +51,7 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
   }
 };
 
-const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, context: ContextModel, res: Response) => {
+const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
   try {
     if(isBefore(workInfoBody.to, workInfoBody.from)){
       return res.status(400).json({
