@@ -27,13 +27,15 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    current_position: {
+    currentPosition: {
         type: String
     },
     phone: {
-        type: String
+        type: String,
+        unique: true,
+        match: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
     },
-    image: {
+    imageURL: {
         type: String
     },
     summary: {
@@ -60,31 +62,16 @@ const userSchema = new Schema({
             type: String
         },
     },
-    is_cv_uploaded: {
-        type: Boolean,
-        default: false
-    },
     languages: [
         {
             name: {
                 type: String
             },
-            skill_level: {
+            skillLevel: {
                 type: String
-            },
-            certified: {
-                type: Boolean,
-                default: false
             }
         }
     ]
-    // potential_positions: [ // in v2 or v3
-    //     {
-    //         title: {
-    //             type: String
-    //         }
-    //     }
-    // ]
 })
 
 const User = model('User', userSchema);

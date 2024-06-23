@@ -48,6 +48,8 @@ const getContext = (user: any): ContextModel => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            username: user.username,
+            imageURL: user?.imageURL
         }
     } as const
 }

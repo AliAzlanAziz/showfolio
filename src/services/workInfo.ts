@@ -5,6 +5,9 @@ import { ContextModel } from '../models/context.model';
 import { WorkInfoModel } from '../models/workInfo.model';
 import WorkInfo from '../schema/workInfo';
 import { WorkInfoType } from '../enums/workInfoType.enum';
+import { CONSTANTS } from '../constants/constants';
+import { uploadBase64Image } from '../helper/uploadImage';
+import { cloudinary } from '../config/cloudinary';
 
 const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, res: Response) => {
   try {
@@ -15,8 +18,15 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
       });
     }
 
+    let imageURL = null;
+    const newWorkInfoId = new Types.ObjectId();
+
+    if(workInfo?.uploadingImage){
+      imageURL = await uploadBase64Image(workInfo.base64Image, CONSTANTS.WORKINFO_IMAGE_FOLDER, newWorkInfoId.toString())
+    }
+
     const newWorkInfo = new WorkInfo({
-      _id: new Types.ObjectId(),
+      _id: newWorkInfoId,
       user: context.user._id,
       type: workInfo.type,
       title: workInfo.title,
@@ -29,7 +39,7 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
           country: workInfo.address.country,
           details: workInfo.address.details
       },
-      pdf_uploaded: false
+      imageURL: imageURL
     })
 
     if(workInfo.type == WorkInfoType.EXPERIENCE){
@@ -77,6 +87,12 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
     
     if(workInfoPresent?.type == WorkInfoType.EXPERIENCE){
       updatedWorkInfo = { ...updatedWorkInfo, jobMode: workInfoBody.jobMode }
+    }
+
+    if(workInfoBody?.uploadingImage){
+      const imageURL = await uploadBase64Image(workInfoBody.base64Image, CONSTANTS.WORKINFO_IMAGE_FOLDER, workInfoBody.id);
+
+      updatedWorkInfo = {...updatedWorkInfo, imageURL: imageURL}
     }
 
     await WorkInfo.findByIdAndUpdate(workInfoBody.id, updatedWorkInfo)
@@ -127,7 +143,11 @@ const GetWorkInfo = async (type: any, context: ContextModel, res: Response) => {
 
 const DeleteWorkInfo = async (id: string, res: Response) => {
   try {
-    const workInfoPresent = await WorkInfo.findByIdAndDelete(id)
+    await WorkInfo.findByIdAndDelete(id);
+
+    const publicID = `${CONSTANTS.WORKINFO_IMAGE_FOLDER}/${id}-${CONSTANTS.WORKINFO_IMAGE_FOLDER}`
+    
+    await cloudinary.uploader.destroy(publicID);
 
     return res.status(200).json({
       success: true,

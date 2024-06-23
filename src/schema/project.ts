@@ -29,6 +29,9 @@ const projectSchema = new Schema({
     },
     to: { 
         type: Date
+    },
+    imageURL: {
+        type: String
     }
 })
 

@@ -16,5 +16,7 @@ export class WorkInfoModel {
         country: string
         details: string
     };
-    pdf_uploaded: boolean
+    imageUrl: string;
+    uploadingImage: boolean;
+    base64Image: string;
 }

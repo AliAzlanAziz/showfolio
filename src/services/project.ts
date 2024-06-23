@@ -4,6 +4,9 @@ import { isBefore } from 'date-fns';
 import { ContextModel } from '../models/context.model';
 import Project from '../schema/project';
 import { ProjectModel } from '../models/project.model';
+import { CONSTANTS } from '../constants/constants';
+import { uploadBase64Image } from '../helper/uploadImage';
+import { cloudinary } from '../config/cloudinary';
 
 const CreateProject = async (project: ProjectModel, context: ContextModel, res: Response) => {
   try {
@@ -14,14 +17,22 @@ const CreateProject = async (project: ProjectModel, context: ContextModel, res: 
       });
     }
 
+    let imageURL = null;
+    const newProjectId = new Types.ObjectId();
+
+    if(project?.uploadingImage){
+      imageURL = await uploadBase64Image(project.base64Image, CONSTANTS.PROJECT_IMAGE_FOLDER, newProjectId.toString())
+    }
+
     const newProject = new Project({
-      _id: new Types.ObjectId(),
+      _id: newProjectId,
       user: context.user._id,
       title: project.title,
       description: project.description,
       workDone: project.workDone,
       from: project.from,
       to: project.to,
+      imageURL: imageURL
     })
 
     await newProject.save();
@@ -53,7 +64,13 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
       description: projectBody.description,
       workDone: projectBody.workDone,
       from: projectBody.from,
-      to: projectBody.to,
+      to: projectBody.to
+    }
+
+    if(projectBody?.uploadingImage){
+      const imageURL = await uploadBase64Image(projectBody.base64Image, CONSTANTS.PROJECT_IMAGE_FOLDER, projectBody.id);
+
+      updatedProject = {...updatedProject, imageURL: imageURL}
     }
     
     await Project.findByIdAndUpdate(projectBody.id, updatedProject)
@@ -90,7 +107,11 @@ const GetProjects = async (type: any, context: ContextModel, res: Response) => {
 
 const DeleteProject = async (id: string, res: Response) => {
   try {
-    const workInfoPresent = await Project.findByIdAndDelete(id)
+    await Project.findByIdAndDelete(id);
+
+    const publicID = `${CONSTANTS.PROJECT_IMAGE_FOLDER}/${id}-${CONSTANTS.PROJECT_IMAGE_FOLDER}`
+    
+    await cloudinary.uploader.destroy(publicID);
 
     return res.status(200).json({
       success: true,

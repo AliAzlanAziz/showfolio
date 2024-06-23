@@ -3,5 +3,7 @@ export class ContextModel  {
         _id: string;
         name: string;
         email: string;
+        username: string;
+        imageURL: string;
     }
 }

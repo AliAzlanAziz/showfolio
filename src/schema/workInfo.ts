@@ -52,9 +52,8 @@ const workInfoSchema = new Schema({
             type: String
         },
     },
-    pdf_uploaded: {
-        type: Boolean,
-        default: false
+    imageUrl: {
+        type: String
     }
 })
 

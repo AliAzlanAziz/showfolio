@@ -6,14 +6,15 @@ import connectDB  from './config/db';
 import userRoutes from './routes/user';
 import workInfoRoutes from './routes/workInfo';
 import projectRoutes from './routes/project';
+import connectCloudinary from './config/cloudinary';
 
 dotenv.config({ path: __dirname + '/config/config.env' })
 
 connectDB()
+connectCloudinary()
 
 const app: Express = express()
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '50Mb' }));
 
 app.use(cors());
 

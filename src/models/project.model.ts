@@ -8,4 +8,6 @@ export class ProjectModel {
     workDone: string;
     from: string;
     to: string;
+    uploadingImage: boolean;
+    base64Image: string;
 }

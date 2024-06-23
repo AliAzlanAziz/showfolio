@@ -14,12 +14,17 @@ const postSignin = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getProfile = (req: Request, res: Response, next: NextFunction) => {
-  return userService.Profile(req.context, res)
+  return userService.GetProfile(req.context, res)
+}
+
+const putProfile = (req: Request, res: Response, next: NextFunction) => {
+  return userService.PutProfile(req.body.user, req.context, res)
 }
 
 export default {
   checkReachable,
   postSignup,
   postSignin,
-  getProfile
+  getProfile,
+  putProfile
 }
