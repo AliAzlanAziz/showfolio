@@ -1,11 +1,9 @@
-export class ProjectModel {
+export class AwardModel {
     id: string;
     user: string;
     title: string;
     description: string;
-    workDone: string;
-    from: string;
-    to: string;
+    year: string;
     uploadingImage: boolean;
     base64Image: string;
 }
