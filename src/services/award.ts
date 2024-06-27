@@ -20,7 +20,7 @@ const CreateAward = async (award: AwardModel, context: ContextModel, res: Respon
       _id: newAwardId,
       user: context.user._id,
       title: award.title,
-      description: award.description,
+      desc: award.desc,
       year: award.year,
       imageURL: imageURL
     })
@@ -44,7 +44,7 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
   try {
     let updatedAward: any = {
       title: awardBody.title,
-      description: awardBody.description,
+      desc: awardBody.desc,
       year: awardBody.year
     }
 
@@ -65,6 +65,23 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
+    });
+  }
+};
+
+const GetAward = async (id: string, res: Response) => {
+  try {
+    const award = await Award.findById(id);
+
+    return res.status(200).json({
+      success: true,
+      data: award,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
     });
   }
 };
@@ -110,6 +127,7 @@ const DeleteAward = async (id: string, res: Response) => {
 export default {
   CreateAward,
   UpdateAward,
+  GetAward,
   GetAwards,
   DeleteAward
 }

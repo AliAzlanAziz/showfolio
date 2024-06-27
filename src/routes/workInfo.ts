@@ -9,7 +9,9 @@ router.post('/', isAuthenticated, workInfoController.postWorkInfo);
 
 router.put('/', isAuthenticated, isUsersWorkInfo, workInfoController.putWorkInfo);
 
-router.get('/', isAuthenticated, workInfoController.getWorkInfo);
+router.get('/:id', isAuthenticated, workInfoController.getWorkInfo);
+
+router.get('/', isAuthenticated, workInfoController.getWorkInfos);
 
 router.delete('/:id', isAuthenticated, isUsersWorkInfo, workInfoController.deleteWorkInfo);
 

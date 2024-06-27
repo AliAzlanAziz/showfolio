@@ -26,7 +26,7 @@ const workInfoSchema = new Schema({
         min: 1,
         max: 512
     },
-    place_name: { // school, company, academy
+    name: { // school, company, academy
         type: String,
         required: true,
         min: 1,
@@ -38,7 +38,7 @@ const workInfoSchema = new Schema({
     to: { 
         type: Date
     },
-    summary: { 
+    desc: { 
         type: String
     },
     address: {

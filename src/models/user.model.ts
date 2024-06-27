@@ -3,17 +3,18 @@ export class UserModel {
     name: string;
     email: string;
     username: string;
-    currentPosition: string;
+    position: string;
     phone: string;
     uploadingImage: boolean;
     base64Image: string;
-    summary: string;
-    socials: [
-        {
-            platform: string;
-            link: string
-        }
-    ];
+    desc: string;
+    fb: string;
+    ig: string;
+    yt: string;
+    gh: string;
+    tw: string;
+    li: string;
+    web: string;
     address: {
         city: string;
         country: string;

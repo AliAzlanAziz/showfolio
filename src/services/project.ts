@@ -28,8 +28,8 @@ const CreateProject = async (project: ProjectModel, context: ContextModel, res: 
       _id: newProjectId,
       user: context.user._id,
       title: project.title,
-      description: project.description,
-      workDone: project.workDone,
+      desc: project.desc,
+      contrib: project.contrib,
       from: project.from,
       to: project.to,
       imageURL: imageURL
@@ -61,8 +61,8 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
 
     let updatedProject: any = {
       title: projectBody.title,
-      description: projectBody.description,
-      workDone: projectBody.workDone,
+      desc: projectBody.desc,
+      contrib: projectBody.contrib,
       from: projectBody.from,
       to: projectBody.to
     }
@@ -88,7 +88,24 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
   }
 };
 
-const GetProjects = async (type: any, context: ContextModel, res: Response) => {
+const GetProject = async (id: string, res: Response) => {
+  try {
+    const project = await Project.findById(id);
+
+    return res.status(200).json({
+      success: true,
+      data: project,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+};
+
+const GetProjects = async (context: ContextModel, res: Response) => {
   try {
     const projects = await Project.find({user: context.user._id}).sort({ from: 'asc' });
 
@@ -129,6 +146,7 @@ const DeleteProject = async (id: string, res: Response) => {
 export default {
   CreateProject,
   UpdateProject,
+  GetProject,
   GetProjects,
   DeleteProject
 }

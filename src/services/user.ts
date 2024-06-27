@@ -99,7 +99,7 @@ const Signin = async (user: UserSigninModel, res: Response) => {
       );
 
       return res.status(200).json({
-        success: false,
+        success: true,
         message: 'Successfully signed in!',
         token: token,
       });
@@ -127,11 +127,17 @@ const PutProfile = async (user: UserModel, context: ContextModel, res: Response)
     }
 
     let updatedProfile: any = {
-      currentPosition: user.currentPosition,
+      position: user.position,
       phone: user.phone,
       imageURL: (user?.uploadingImage == true) ? imageURL : context.user.imageURL,
-      summary: user.summary,
-      socials: user.socials,
+      desc: user.desc,
+      fb: user.fb,
+      ig: user.ig,
+      yt: user.yt,
+      gh: user.gh,
+      tw: user.tw,
+      li: user.li,
+      web: user.web,
       address: {
           city: user.address.city,
           country: user.address.country,

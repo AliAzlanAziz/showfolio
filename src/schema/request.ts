@@ -9,24 +9,14 @@ const awardSchema = new Schema({
         ref: 'User',
         required: true
     },
-    title: {
-        type: String,
-        required: true,
-        min: 1,
-        max: 512
+    to: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    desc: {
-        type: String,
-        required: true,
-        min: 1,
-        max: 512
-    },
-    year: { 
-        type: String,
-        match: /^\d{4}$/
-    },
-    imageURL: {
-        type: String
+    time: { 
+        type: Date,
+        default: new Date()
     }
 })
 

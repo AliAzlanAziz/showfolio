@@ -15,14 +15,17 @@ const projectSchema = new Schema({
         min: 1,
         max: 512
     },
-    description: {
+    desc: {
         type: String,
         required: true,
         min: 1,
         max: 512
     },
-    workDone: { 
+    contrib: { 
         type: String,
+        required: true,
+        min: 1,
+        max: 1200
     },
     from: { 
         type: Date

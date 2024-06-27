@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 import userController from '../controllers/user';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
-import { multerImageUploader } from '../helper/multerImageUpload';
 
 const router: Router = express.Router();
 

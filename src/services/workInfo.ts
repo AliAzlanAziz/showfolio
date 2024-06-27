@@ -30,10 +30,10 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
       user: context.user._id,
       type: workInfo.type,
       title: workInfo.title,
-      place_name: workInfo.place_name,
+      name: workInfo.name,
       from: workInfo.from,
       to: workInfo.to,
-      summary: workInfo.summary,
+      desc: workInfo.desc,
       address: {
           city: workInfo.address.city,
           country: workInfo.address.country,
@@ -74,10 +74,10 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
 
     let updatedWorkInfo: any = {
       title: workInfoBody.title,
-      place_name: workInfoBody.place_name,
+      name: workInfoBody.name,
       from: workInfoBody.from,
       to: workInfoBody.to,
-      summary: workInfoBody.summary,
+      desc: workInfoBody.desc,
       address: {
           city: workInfoBody.address.city,
           country: workInfoBody.address.country,
@@ -110,7 +110,24 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
   }
 };
 
-const GetWorkInfo = async (type: any, context: ContextModel, res: Response) => {
+const GetWorkInfo = async (id: string, res: Response) => {
+  try {
+    const workInfo = await WorkInfo.findById(id);
+
+    return res.status(200).json({
+      success: true,
+      data: workInfo,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+};
+
+const GetWorkInfos = async (type: any, context: ContextModel, res: Response) => {
   try {
     const allowedTypes = ['1', '2', '3', 'ALL']
 
@@ -166,5 +183,6 @@ export default {
   CreateWorkInfo,
   UpdateWorkInfo,
   GetWorkInfo,
+  GetWorkInfos,
   DeleteWorkInfo
 }

@@ -9,6 +9,8 @@ router.post('/', isAuthenticated, projectController.postProject);
 
 router.put('/', isAuthenticated, isUsersProject, projectController.putProject);
 
+router.get('/:id', isAuthenticated, projectController.getProject);
+
 router.get('/', isAuthenticated, projectController.getProjects);
 
 router.delete('/:id', isAuthenticated, isUsersProject, projectController.deleteProject);

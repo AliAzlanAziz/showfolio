@@ -10,7 +10,11 @@ const putWorkInfo = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getWorkInfo = (req: Request, res: Response, next: NextFunction) => {
-  return workInfoService.GetWorkInfo(req.query.type, req.context, res)
+  return workInfoService.GetWorkInfo(req.params.id, res)
+}
+
+const getWorkInfos = (req: Request, res: Response, next: NextFunction) => {
+  return workInfoService.GetWorkInfos(req.query.type, req.context, res)
 }
 
 const deleteWorkInfo = (req: Request, res: Response, next: NextFunction) => {
@@ -21,5 +25,6 @@ export default {
   postWorkInfo,
   putWorkInfo,
   getWorkInfo,
+  getWorkInfos,
   deleteWorkInfo
 }

@@ -9,6 +9,8 @@ router.post('/', isAuthenticated, awardController.postAward);
 
 router.put('/', isAuthenticated, isUsersAward, awardController.putAward);
 
+router.get('/:id', isAuthenticated, awardController.getAward);
+
 router.get('/', isAuthenticated, awardController.getAwards);
 
 router.delete('/:id', isAuthenticated, isUsersAward, awardController.deleteAward);

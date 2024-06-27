@@ -7,10 +7,10 @@ export class WorkInfoModel {
     type: WorkInfoType;
     jobMode: JobModeType;
     title: string;
-    place_name: string;
+    name: string;
     from: string;
     to: string;
-    summary: string;
+    desc: string;
     address: {
         city: string
         country: string

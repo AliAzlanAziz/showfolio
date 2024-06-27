@@ -27,7 +27,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    currentPosition: {
+    position: {
         type: String
     },
     phone: {
@@ -38,19 +38,36 @@ const userSchema = new Schema({
     imageURL: {
         type: String
     },
-    summary: {
+    desc: {
         type: String
     },
-    socials: [
-        {
-            platform: {
-                type: String
-            },
-            link: {
-                type: String
-            }
-        }
-    ],
+    fb: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.facebook\.com\/.*/
+    },
+    ig: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.instagram\.com\/.*/
+    },
+    yt: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.youtube\.com\/.*/
+    },
+    gh: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.github\.com\/.*/
+    },
+    tw: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.twitter\.com\/.*/
+    },
+    li: {
+        type: String,
+        match: /https:\/\/[a-z]{2,3}\.linkedin\.com\/.*/
+    },
+    web: {
+        type: String
+    },
     address: {
         city: {
             type: String
@@ -71,7 +88,19 @@ const userSchema = new Schema({
                 type: String
             }
         }
-    ]
+    ],
+    toWork: {
+        type: Boolean,
+        default: false
+    },
+    toHire: {
+        type: Boolean,
+        default: false
+    },
+    public: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const User = model('User', userSchema);
