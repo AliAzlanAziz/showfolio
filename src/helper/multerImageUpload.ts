@@ -20,7 +20,7 @@ const storageEngine = multer.diskStorage({
   destination: "./src/uploadedImages",
   filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
     const extension = file.mimetype.split('/')[1];
-    cb(null, `${req.context.user._id}-${(new Date().getTime())}----.${extension}`);
+    cb(null, `${req.context.user._id}-${((new Date()).toUTCString().getTime())}----.${extension}`);
   }
 });
 

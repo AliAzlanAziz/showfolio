@@ -49,7 +49,12 @@ const getContext = (user: any): ContextModel => {
             name: user.name,
             email: user.email,
             username: user.username,
-            imageURL: user?.imageURL
+            imageURL: user?.imageURL,
+            toWork: user.toWork,
+            toHire: user.toHire,
+            public: user.public,
+            paidDate: user?.paidDate || null,
+            subsType: user.subsType
         }
     } as const
 }

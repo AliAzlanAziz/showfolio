@@ -1,4 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
+import { SubscriptionType } from '../enums/subscriptionType.enum';
 
 const userSchema = new Schema({
     _id: {
@@ -100,6 +101,14 @@ const userSchema = new Schema({
     public: {
         type: Boolean,
         default: false
+    },
+    paidDate: {
+        type: Date
+    },
+    subsType: {
+        type: Number,
+        enum: [SubscriptionType.MONTHLY, SubscriptionType.YEARLY, SubscriptionType.NONE],
+        default: SubscriptionType.NONE
     }
 })
 

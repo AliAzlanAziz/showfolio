@@ -6,6 +6,9 @@ import connectDB  from './config/db';
 import userRoutes from './routes/user';
 import workInfoRoutes from './routes/workInfo';
 import projectRoutes from './routes/project';
+import awardRoutes from './routes/award';
+import viewRoutes from './routes/view';
+import subscriptionRoutes from './routes/subscription';
 import connectCloudinary from './config/cloudinary';
 
 dotenv.config({ path: __dirname + '/config/config.env' })
@@ -27,6 +30,9 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200
 app.use('/user', userRoutes)
 app.use('/workInfo', workInfoRoutes)
 app.use('/project', projectRoutes)
+app.use('/award', awardRoutes)
+app.use('/view', viewRoutes)
+app.use('/subscription', subscriptionRoutes)
 
 app.listen(process.env.PORT, () =>
     console.log(`Server ready at http://localhost:${process.env.PORT}`)

@@ -1,6 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
 
-const awardSchema = new Schema({
+const viewSchema = new Schema({
     _id: {
         type: Types.ObjectId,
     },
@@ -16,10 +16,14 @@ const awardSchema = new Schema({
     },
     time: { 
         type: Date,
-        default: new Date()
+        default: (new Date()).toUTCString()
+    },
+    requested: {
+        type: Boolean,
+        default: false
     }
 })
 
-const Award = model('Award', awardSchema);
+const View = model('View', viewSchema);
 
-export default Award;
+export default View;
