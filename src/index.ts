@@ -9,6 +9,7 @@ import projectRoutes from './routes/project';
 import awardRoutes from './routes/award';
 import viewRoutes from './routes/view';
 import subscriptionRoutes from './routes/subscription';
+import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
 
 dotenv.config({ path: __dirname + '/config/config.env' })
@@ -33,6 +34,7 @@ app.use('/project', projectRoutes)
 app.use('/award', awardRoutes)
 app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
+app.use('/stripe', stripeRoutes)
 
 app.listen(process.env.PORT, () =>
     console.log(`Server ready at http://localhost:${process.env.PORT}`)
