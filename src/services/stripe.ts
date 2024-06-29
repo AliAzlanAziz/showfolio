@@ -6,6 +6,7 @@ const stripe = new Stripe(process?.env?.STRIPE_WEBHOOK_SECRET_KEY || '');
 const Webhook = async (req: Request, res: Response) => {
   try{
     const sig = req.headers['stripe-signature'] as string;
+    console.log(process.env.STRIPE_WEBHOOK_SECRET_KEY)
     const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
 
     switch (event.type) {
