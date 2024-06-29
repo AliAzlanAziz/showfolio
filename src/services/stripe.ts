@@ -7,16 +7,13 @@ const Webhook = async (req: Request, res: Response) => {
   try{
     const sig = req.headers['stripe-signature'] as string;
     const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
-    console.log("after event parsed")
 
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntentSuccess = event.data.object;
-        console.log('PaymentIntent was successful!', paymentIntentSuccess);
         break;
       case 'payment_intent.payment_failed':
         const paymentIntentFailed = event.data.object;
-        console.log('PaymentIntent failed.', paymentIntentFailed);
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
