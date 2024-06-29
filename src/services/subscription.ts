@@ -26,7 +26,8 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
       metadata: {
         userId: context.user._id.toString(),
         subscriptionType: subscription.type.toString(),
-        time: (new Date()).toUTCString()
+        time: (new Date()).toUTCString(),
+        amount: `${amount}`
       },
       automatic_payment_methods: { enabled: true }
     });
