@@ -15,3 +15,7 @@ export const isYearly = (type: SubscriptionType): boolean => {
 export const isNone = (type: SubscriptionType): boolean => {
     return type == SubscriptionType.NONE
 }
+
+export const isSubscribed = (type: SubscriptionType): boolean => {
+    return isMonthly(type) || isYearly(type);
+}
