@@ -18,6 +18,7 @@ connectDB()
 connectCloudinary()
 
 const app: Express = express()
+app.use('/stripe', express.raw({type: 'application/json'}), stripeRoutes)
 app.use(express.json({ limit: '50Mb' }));
 
 app.use(cors());
@@ -34,7 +35,6 @@ app.use('/project', projectRoutes)
 app.use('/award', awardRoutes)
 app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
-app.use('/stripe', stripeRoutes)
 
 app.listen(process.env.PORT, () =>
     console.log(`Server ready at http://localhost:${process.env.PORT}`)
