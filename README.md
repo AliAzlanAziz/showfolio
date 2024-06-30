@@ -22,6 +22,6 @@ these are the apis, will link the frontend soon
 
 #### Toy 
 toy is this api + screenshot of the app below (still under progress)
-![mobile app ui screens collage]([http://url/to/img.png](https://i.imgur.com/FRKMIJx.png))
+![mobile app ui screens collage](https://i.imgur.com/FRKMIJx.png)
 
 ~ ali azlan aziz - erevald
