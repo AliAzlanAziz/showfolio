@@ -25,7 +25,7 @@ these are the apis, will link the frontend soon
 - i plan to develop it in the next 2 weeks. 
 
 toy is this api + screenshot of the app below (still under progress)
-<img src="https://i.imgur.com/FRKMIJx.png" alt="mobile app ui screens collage" height="75%" width="75%" >
+<img src="https://i.imgur.com/67ioRgZ.png" alt="mobile app ui screens collage" height="75%" width="75%" >
 
 
 ###### ~ ali azlan aziz - erevald
