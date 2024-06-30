@@ -21,8 +21,12 @@ const postResetPassword = (req: Request, res: Response) => {
   return userService.ResetPassword(req.body.user, res);
 };
 
-const getProfile = (req: Request, res: Response) => {
-  return userService.GetProfile(req.context, res)
+const getSelfProfile = (req: Request, res: Response) => {
+  return userService.GetSelfProfile(req.context, res)
+}
+
+const getUserProfile = (req: Request, res: Response) => {
+  return userService.GetUserProfile(req.params.id, req.context, res)
 }
 
 const putProfile = (req: Request, res: Response) => {
@@ -33,13 +37,24 @@ const putUserPassword = (req: Request, res: Response) => {
   return userService.UpdateUserPassword(req.body.user, req.context, res)
 }
 
+const putProfilePublicToggle = (req: Request, res: Response) => {
+  return userService.ProfilePublicToggle(req.context, res)
+}
+
+const getSearchProfiles = (req: Request, res: Response) => {
+  return userService.SearchProfiles(req.query, res)
+}
+
 export default {
   checkReachable,
   postSignup,
   postSignin,
   postForgotPassword,
   postResetPassword,
-  getProfile,
+  getSelfProfile,
   putProfile,
-  putUserPassword
+  putUserPassword,
+  putProfilePublicToggle,
+  getUserProfile,
+  getSearchProfiles
 }

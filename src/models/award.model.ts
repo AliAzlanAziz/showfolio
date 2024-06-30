@@ -3,7 +3,7 @@ export class AwardModel {
     user: string;
     title: string;
     desc: string;
-    year: string;
+    year: number;
     uploadingImage: boolean;
     base64Image: string;
 }

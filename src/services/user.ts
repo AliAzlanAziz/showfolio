@@ -14,6 +14,11 @@ import { getCurrentUTCTime } from '../helper/utils';
 import { sendAfterPasswordResetMail, sendPasswordResetCodeMail } from '../helper/mailer';
 import { addHours, isAfter, subHours } from 'date-fns';
 import { UserResetPasswordModel } from '../models/userResetPassword.model';
+import workInfoService from './workInfo'
+import projectService from './project'
+import awardService from './award'
+import viewService from './view'
+import { WorkInfoType } from '../enums/workInfoType.enum';
 
 const saltRounds = 10;
 
@@ -298,7 +303,7 @@ const UpdateUserPassword = async (user: UserResetPasswordModel, context: Context
   }
 };
 
-const GetProfile = async (context: ContextModel, res: Response) => {
+const GetSelfProfile = async (context: ContextModel, res: Response) => {
   try {
     const profile = await User.findById(context.user._id).select({password: 0, code: 0, validTill: 0});
 
@@ -315,13 +320,151 @@ const GetProfile = async (context: ContextModel, res: Response) => {
   }
 };
 
+const GetUserProfile = async (id: string, context: ContextModel, res: Response) => {
+  try {
+    const lastView = await viewService.GetLastViewOfUserId(id, context);
+
+    const hideFields = {password: 0, code: 0, validTill: 0, paidDate: 0};
+    let profile = null;
+
+    if((lastView && lastView.requested) || id == context.user._id){
+      profile = await User.findById(id).select(hideFields);  
+    }else{
+      profile = await User.findById(id)
+                          .select({_id: 1, name: 1, username: 1, position: 1, desc: 1, languages: 1, toWork: 1, toHire: 1, public: 1, subsType: 1});    
+    }
+
+    if((profile == null || profile == undefined || !profile.public) && id != context.user._id){
+      return res.status(400).json({
+        success: false,
+        message: 'Profile not published!'
+      })
+    }
+
+    const eduPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.EDUCATION)
+    const expPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.EXPERIENCE)
+    const certPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.CERTIFICATE)
+    const projPromise = projectService.GetUserProjects(id)
+    const awardPromise = awardService.GetUserAwards(id)
+
+    const [edu, exp, cert, proj, award] = await Promise.all([eduPromise, expPromise, certPromise, projPromise, awardPromise])
+
+    return res.status(200).json({
+      success: true,
+      profile: profile,
+      educations: edu,
+      experiences: exp,
+      certifications: cert,
+      projects: proj,
+      awards: award
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+};
+
+const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
+  try {
+    const userExist = await User.findById(context.user._id);
+
+    if (!userExist) {
+      return res.status(404).json({
+        success: false,
+        message: 'User does not exist!',
+      });
+    }
+
+    if (!userExist.public) {
+      const edu = await workInfoService.GetUserWorkInfosCount(context.user._id, WorkInfoType.EDUCATION)
+      if (edu && edu == 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'You must add 1 Education before you can publish your profile!'
+        })
+      }
+
+      const exp = await workInfoService.GetUserWorkInfosCount(context.user._id, WorkInfoType.EXPERIENCE)
+      if (exp && exp == 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'You must add 1 Experience before you can publish your profile!'
+        })
+      }
+
+      const proj = await projectService.GetUserProjectsCount(context.user._id)
+      if (proj && proj == 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'You must add 1 Project before you can publish your profile!'
+        })
+      }
+    }
+
+    userExist.public = !userExist.public;
+
+    await userExist.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Profile privacy update!'
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Error updating profile privacy!',
+    });
+  }
+};
+
+const SearchProfiles = async (query: any, res: Response) => {
+  try {
+    const {queryStr, city, country} = query
+
+    const queryStrReg = new RegExp(queryStr, 'i');
+    const cityReg = new RegExp(city, 'i');
+    const countryReg = new RegExp(country, 'i');
+
+    const users = await User.find({
+      $or: [
+        { name: { $regex: queryStrReg } },
+        { username: { $regex: queryStrReg } },
+        { position: { $regex: queryStrReg } },
+        { tags: { $regex: queryStrReg } },
+        { 'address.city': { $regex: cityReg } },
+        { 'address.country': { $regex: countryReg } } 
+      ]
+    })
+    .sort({ points: 'desc' })
+    .select({_id: 1, name: 1, imageURL: 1, public: 1, subsType: 1, position: 1, address: 1, toWork: 1, toHire: 1})
+
+    return res.status(200).json({
+      success: true,
+      users: users
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+
+}
+
 export default {
   CheckReachable,
   Signup,
   Signin,
   ForgotPassword,
   ResetPassword,
-  GetProfile,
+  GetSelfProfile,
   UpdateProfile,
-  UpdateUserPassword
+  UpdateUserPassword,
+  GetUserProfile,
+  ProfilePublicToggle,
+  SearchProfiles
 }

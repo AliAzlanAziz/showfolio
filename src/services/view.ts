@@ -8,7 +8,7 @@ import { getCurrentUTCTime } from '../helper/utils';
 
 const CreateView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    const oldView = await View.findOne({to: view.to}).sort({time: 'desc'});
+    const oldView = await View.findOne({user: context.user._id, to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       const viewTimeValidTill = addHours(oldView.time, 3);
@@ -52,7 +52,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
 
 const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    const oldView = await View.findOne({to: view.to}).sort({time: 'desc'});
+    const oldView = await View.findOne({user: context.user._id, to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       oldView.requested = true; 
@@ -189,6 +189,10 @@ const GetViews = async (type: any, context: ContextModel, res: Response) => {
   }
 };
 
+const GetLastViewOfUserId = async (id: string, context: ContextModel) => {
+  return View.findOne({to: id, user: context.user._id}).sort({time: 'desc'});
+};
+
 export default {
   CreateView,
   CreateRequestInView,
@@ -196,4 +200,5 @@ export default {
   AllUserViewers,
   GetView,
   GetViews,
+  GetLastViewOfUserId
 }

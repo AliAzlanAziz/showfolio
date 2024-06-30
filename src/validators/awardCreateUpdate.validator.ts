@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 const awardCreateUpdateSchema = Joi.object({
     title: Joi.string().trim().min(1).max(256).required(),
     desc: Joi.string().trim().min(1).max(512).required(),
-    year: Joi.string().trim().regex(/^[1-9]\d{3}$/).optional(),
+    year: Joi.number().min(1800).max(9999).optional(),
     uploadingImage: Joi.boolean().optional(),
     base64Image: Joi.string().when('uploadingImage', {
         is: true,

@@ -179,10 +179,32 @@ const DeleteWorkInfo = async (id: string, res: Response) => {
   }
 };
 
+const GetUserWorkInfos = async (id: string, type: number) => {
+  const allowedTypes = [WorkInfoType.EDUCATION, WorkInfoType.EXPERIENCE, WorkInfoType.CERTIFICATE];
+
+  if (!allowedTypes.includes(type)) {
+    return false;
+  }
+
+  return WorkInfo.find({user: id, type: type}).sort({ from: 'asc' });
+};
+
+const GetUserWorkInfosCount = async (id: string, type: number) => {
+  const allowedTypes = [WorkInfoType.EDUCATION, WorkInfoType.EXPERIENCE, WorkInfoType.CERTIFICATE];
+
+  if (!allowedTypes.includes(type)) {
+    return false;
+  }
+
+  return WorkInfo.find({user: id, type: type}).countDocuments();
+};
+
 export default {
   CreateWorkInfo,
   UpdateWorkInfo,
   GetWorkInfo,
   GetWorkInfos,
-  DeleteWorkInfo
+  DeleteWorkInfo,
+  GetUserWorkInfos,
+  GetUserWorkInfosCount
 }

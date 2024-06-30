@@ -18,13 +18,13 @@ const userSchema = new Schema({
         min: 4,
         max: 128
     },
-    email: { 
-        type: String, 
+    email: {
+        type: String,
         required: true,
         unique: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    password: { 
+    password: {
         type: String,
         required: true
     },
@@ -149,6 +149,13 @@ const userSchema = new Schema({
     validTill: {
         type: Date,
         default: null
+    },
+    tags: {
+        type: String
+    },
+    points: {
+        type: Number,
+        default: 0
     }
 })
 

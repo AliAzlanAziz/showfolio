@@ -143,10 +143,20 @@ const DeleteProject = async (id: string, res: Response) => {
   }
 };
 
+const GetUserProjects = async (id: string) => {
+  return Project.find({user: id}).sort({ from: 'asc' });
+};
+
+const GetUserProjectsCount = async (id: string) => {
+  return Project.find({user: id}).countDocuments();
+};
+
 export default {
   CreateProject,
   UpdateProject,
   GetProject,
   GetProjects,
-  DeleteProject
+  DeleteProject,
+  GetUserProjects,
+  GetUserProjectsCount
 }
