@@ -3,6 +3,7 @@
 ## to: anyone who is reading especially @farza and the buildspace team
 building this project for the buildspace sage s5 nights and weekends
 
+<br>
 ### Week#01 Idea+Description
 one liner: mobile app to make portfolio 
 
@@ -13,6 +14,7 @@ description:
 
 these are the apis, will link the frontend soon
 
+<br>
 ### Week#02 Toy
 
 - i have made almost all the restful apis by now in nodejs typescript. (this is the api repo)
