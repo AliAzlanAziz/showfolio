@@ -4,6 +4,7 @@
 building this project for the buildspace sage s5 nights and weekends
 
 <br>
+
 ### Week#01 Idea+Description
 one liner: mobile app to make portfolio 
 
@@ -15,6 +16,7 @@ description:
 these are the apis, will link the frontend soon
 
 <br>
+
 ### Week#02 Toy
 
 - i have made almost all the restful apis by now in nodejs typescript. (this is the api repo)
@@ -26,4 +28,4 @@ toy is this api + screenshot of the app below (still under progress)
 <img src="https://i.imgur.com/FRKMIJx.png" alt="mobile app ui screens collage" height="75%" width="75%" >
 
 
-~ ali azlan aziz - erevald
+###### ~ ali azlan aziz - erevald
