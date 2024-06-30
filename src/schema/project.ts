@@ -13,7 +13,7 @@ const projectSchema = new Schema({
         type: String,
         required: true,
         min: 1,
-        max: 512
+        max: 256
     },
     desc: {
         type: String,

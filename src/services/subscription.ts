@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ContextModel } from '../models/context.model';
 import { SubscriptionType, isMonthly, isNone, isSubscribed, isYearly } from '../enums/subscriptionType.enum';
 import { SubscriptionModel } from '../models/subscription.model';
 import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
+import { getCurrentUTCTime } from '../helper/utils';
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -12,7 +13,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
 const CreatePaymentIntents = async (subscription: SubscriptionModel, context: ContextModel, res: Response) => {
   try {
     if(isSubscribed(context.user.subsType)){
-      return res.status(409).json({
+      return res.status(400).json({
         success: false,
         message: 'You can only after your current subscription ends!'
       })
@@ -26,7 +27,7 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
       metadata: {
         userId: context.user._id.toString(),
         subscriptionType: subscription.type.toString(),
-        time: (new Date()).toUTCString(),
+        time: getCurrentUTCTime().toUTCString(),
         amount: `${amount}`
       },
       automatic_payment_methods: { enabled: true }

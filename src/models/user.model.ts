@@ -25,5 +25,11 @@ export class UserModel {
             name: string;
             skillLevel: string;
         }
-    ]
+    ];
+    toWork: boolean;
+    toHire: boolean;
+    public: boolean;
+    paidDate: Date;
+    subsType: number;
+    code: string;
 }

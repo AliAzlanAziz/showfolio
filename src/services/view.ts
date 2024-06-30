@@ -4,15 +4,16 @@ import { ContextModel } from '../models/context.model';
 import View from '../schema/view';
 import { ViewModel } from '../models/view.model';
 import { addHours, isAfter } from 'date-fns';
+import { getCurrentUTCTime } from '../helper/utils';
 
 const CreateView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
     const oldView = await View.findOne({to: view.to}).sort({createdAt: 'desc'});
 
     if(oldView){
-      const createdAtValidFor = addHours(oldView.time, 3);
+      const viewTimeValidTill = addHours(oldView.time, 3);
 
-      if(isAfter(createdAtValidFor, (new Date()).toUTCString())){
+      if(isAfter(getCurrentUTCTime(), viewTimeValidTill)){
         const newView = new View({
           _id: new Types.ObjectId(),
           user: context.user._id,

@@ -18,19 +18,20 @@ const workInfoSchema = new Schema({
     },
     jobMode: {
         type: Number,
-        enum: [JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID]
+        enum: [JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID],
+        required: true
     },
     title: { // degree, designation, certificate name
         type: String,
         required: true,
         min: 1,
-        max: 512
+        max: 256
     },
     name: { // school, company, academy
         type: String,
         required: true,
         min: 1,
-        max: 512
+        max: 256
     },
     from: { 
         type: Date
@@ -39,17 +40,25 @@ const workInfoSchema = new Schema({
         type: Date
     },
     desc: { 
-        type: String
+        type: String,
+        min: 1,
+        max: 256
     },
     address: {
         city: {
-            type: String
+            type: String,
+            min: 1,
+            max: 128
         },
         country: {
-            type: String
+            type: String,
+            min: 1,
+            max: 128
         },
         details: {
-            type: String
+            type: String,
+            min: 1,
+            max: 256
         },
     },
     imageUrl: {

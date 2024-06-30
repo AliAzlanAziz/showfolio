@@ -6,7 +6,7 @@ const router: Router = express.Router();
 
 router.post('/', isAuthenticated, viewController.postView);
 
-router.put('/', isAuthenticated, viewController.putView);
+router.put('/request', isAuthenticated, viewController.putView);
 
 router.get('/count', isAuthenticated, viewController.getAllUserViews);
 

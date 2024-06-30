@@ -7,9 +7,6 @@ import Stripe from 'stripe';
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
-console.log("process.env.STRIPE_WEBHOOK_SECRET_KEY")
-console.log(process.env.STRIPE_WEBHOOK_SECRET_KEY)
-
 const stripe = new Stripe(process.env.STRIPE_WEBHOOK_SECRET_KEY || '')
 
 const Webhook = async (req: Request, res: Response) => {

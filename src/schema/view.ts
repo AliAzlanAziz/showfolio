@@ -1,4 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
+import { getCurrentUTCTime } from '../helper/utils';
+import { required } from '@hapi/joi';
 
 const viewSchema = new Schema({
     _id: {
@@ -16,7 +18,8 @@ const viewSchema = new Schema({
     },
     time: { 
         type: Date,
-        default: (new Date()).toUTCString()
+        default: getCurrentUTCTime(),
+        required: true
     },
     requested: {
         type: Boolean,

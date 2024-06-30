@@ -13,18 +13,33 @@ const postSignin = (req: Request, res: Response) => {
   return userService.Signin(req.body.user, res);
 };
 
+const postForgotPassword = (req: Request, res: Response) => {
+  return userService.ForgotPassword(req.body.user, res);
+};
+
+const postResetPassword = (req: Request, res: Response) => {
+  return userService.ResetPassword(req.body.user, res);
+};
+
 const getProfile = (req: Request, res: Response) => {
   return userService.GetProfile(req.context, res)
 }
 
 const putProfile = (req: Request, res: Response) => {
-  return userService.PutProfile(req.body.user, req.context, res)
+  return userService.UpdateProfile(req.body.user, req.context, res)
+}
+
+const putUserPassword = (req: Request, res: Response) => {
+  return userService.UpdateUserPassword(req.body.user, req.context, res)
 }
 
 export default {
   checkReachable,
   postSignup,
   postSignin,
+  postForgotPassword,
+  postResetPassword,
   getProfile,
-  putProfile
+  putProfile,
+  putUserPassword
 }

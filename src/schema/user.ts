@@ -8,15 +8,15 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true,
-        min: 1,
-        max: 256
+        min: 4,
+        max: 128
     },
     username: {
         type: String,
         required: true,
         unique: true,
-        min: 1,
-        max: 256
+        min: 4,
+        max: 128
     },
     email: { 
         type: String, 
@@ -29,64 +29,95 @@ const userSchema = new Schema({
         required: true
     },
     position: {
-        type: String
+        type: String,
+        min: 3,
+        max: 128
     },
     phone: {
         type: String,
         unique: true,
-        match: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+        match: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+        min: 9,
+        max: 128
     },
     imageURL: {
-        type: String
+        type: String,
+        // min: 1,
+        // max: 1024
     },
     desc: {
-        type: String
+        type: String,
+        min: 1,
+        max: 512
     },
     fb: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.facebook\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.facebook\.com\/.*/,
+        min: 18,
+        max: 256
     },
     ig: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.instagram\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.instagram\.com\/.*/,
+        min: 18,
+        max: 256
     },
     yt: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.youtube\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.youtube\.com\/.*/,
+        min: 18,
+        max: 256
     },
     gh: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.github\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.github\.com\/.*/,
+        min: 18,
+        max: 256
     },
     tw: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.twitter\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.twitter\.com\/.*/,
+        min: 18,
+        max: 256
     },
     li: {
         type: String,
-        match: /https:\/\/[a-z]{2,3}\.linkedin\.com\/.*/
+        match: /https:\/\/[a-z]{2,3}\.linkedin\.com\/.*/,
+        min: 18,
+        max: 256
     },
     web: {
-        type: String
+        type: String,
+        min: 4,
+        max: 256
     },
     address: {
         city: {
-            type: String
+            type: String,
+            min: 1,
+            max: 128
         },
         country: {
-            type: String
+            type: String,
+            min: 1,
+            max: 128
         },
         details: {
-            type: String
+            type: String,
+            min: 1,
+            max: 256
         },
     },
     languages: [
         {
             name: {
-                type: String
+                type: String,
+                min: 1,
+                max: 128
             },
             skillLevel: {
-                type: String
+                type: Number,
+                enum: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
             }
         }
     ],
@@ -103,12 +134,21 @@ const userSchema = new Schema({
         default: false
     },
     paidDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     subsType: {
         type: Number,
         enum: [SubscriptionType.MONTHLY, SubscriptionType.YEARLY, SubscriptionType.NONE],
         default: SubscriptionType.NONE
+    },
+    code: {
+        type: String,
+        match: /^[0-9]{6}$/
+    },
+    validTill: {
+        type: Date,
+        default: null
     }
 })
 

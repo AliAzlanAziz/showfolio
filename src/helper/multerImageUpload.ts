@@ -1,6 +1,7 @@
 import multer, { FileFilterCallback } from "multer";
 import { Request } from "express";
 import path from "path";
+import { getCurrentUTCTime } from "./utils";
 
 const checkFileType = function (file: Express.Multer.File, cb: FileFilterCallback) {
   const fileTypes = /jpeg|jpg|png/; 
@@ -20,7 +21,7 @@ const storageEngine = multer.diskStorage({
   destination: "./src/uploadedImages",
   filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
     const extension = file.mimetype.split('/')[1];
-    cb(null, `${req.context.user._id}-${((new Date()).toUTCString())}----.${extension}`);
+    cb(null, `${req.context.user._id}-${getCurrentUTCTime().toUTCString()}----.${extension}`);
   }
 });
 

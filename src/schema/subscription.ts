@@ -1,5 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
 import { SubscriptionType } from '../enums/subscriptionType.enum';
+import { getCurrentUTCTime } from '../helper/utils';
 
 const subscriptionSchema = new Schema({
     _id: {
@@ -17,7 +18,7 @@ const subscriptionSchema = new Schema({
     },
     time: { 
         type: Date,
-        default: (new Date()).toUTCString()
+        default: getCurrentUTCTime()
     },
     amount: {
         type: Number,

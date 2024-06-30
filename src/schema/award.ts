@@ -13,7 +13,7 @@ const awardSchema = new Schema({
         type: String,
         required: true,
         min: 1,
-        max: 512
+        max: 256
     },
     desc: {
         type: String,
@@ -23,7 +23,7 @@ const awardSchema = new Schema({
     },
     year: { 
         type: String,
-        match: /^\d{4}$/
+        match: /^[1-9]{4}$/
     },
     imageURL: {
         type: String

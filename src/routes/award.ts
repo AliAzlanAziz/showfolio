@@ -2,12 +2,13 @@ import express, { Router } from 'express';
 import awardController from '../controllers/award';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 import { isUsersAward } from '../middlewares/isAuthorized';
+import { awardCreateUpdateValidator } from '../validators/awardCreateUpdate.validator';
 
 const router: Router = express.Router();
 
-router.post('/', isAuthenticated, awardController.postAward);
+router.post('/', isAuthenticated, awardCreateUpdateValidator, awardController.postAward);
 
-router.put('/', isAuthenticated, isUsersAward, awardController.putAward);
+router.put('/', isAuthenticated, isUsersAward, awardCreateUpdateValidator, awardController.putAward);
 
 router.get('/:id', isAuthenticated, awardController.getAward);
 
