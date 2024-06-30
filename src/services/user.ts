@@ -380,7 +380,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
 
     if (!userExist.public) {
       const edu = await workInfoService.GetUserWorkInfosCount(context.user._id, WorkInfoType.EDUCATION)
-      if (edu && edu == 0) {
+      if (Number(edu) < 1) {
         return res.status(400).json({
           success: false,
           message: 'You must add 1 Education before you can publish your profile!'
@@ -388,7 +388,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
       }
 
       const exp = await workInfoService.GetUserWorkInfosCount(context.user._id, WorkInfoType.EXPERIENCE)
-      if (exp && exp == 0) {
+      if (Number(exp) < 1) {
         return res.status(400).json({
           success: false,
           message: 'You must add 1 Experience before you can publish your profile!'
@@ -396,7 +396,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
       }
 
       const proj = await projectService.GetUserProjectsCount(context.user._id)
-      if (proj && proj == 0) {
+      if (Number(proj) < 1) {
         return res.status(400).json({
           success: false,
           message: 'You must add 1 Project before you can publish your profile!'
