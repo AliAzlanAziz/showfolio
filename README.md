@@ -1,9 +1,11 @@
 # showfolio
 
-to: anyone who is reading especially @farza and the buildspace team
-
+## to: anyone who is reading especially @farza and the buildspace team
 building this project for the buildspace sage s5 nights and weekends
 
+<br>
+
+### Week#01 Idea+Description
 one liner: mobile app to make portfolio 
 
 description: 
@@ -13,4 +15,17 @@ description:
 
 these are the apis, will link the frontend soon
 
-~ ali azlan aziz - erevald
+<br>
+
+### Week#02 Toy
+
+- i have made almost all the restful apis by now in nodejs typescript. (this is the api repo)
+- i have to implement two things now, one is ml/ai model to rate the portfolios of users.
+- other is to make ui of the mobile app and integrate it with the apis. 
+- i plan to develop it in the next 2 weeks. 
+
+toy is this api + screenshot of the app below (still under progress)
+<img src="https://i.imgur.com/67ioRgZ.png" alt="mobile app ui screens collage" height="75%" width="75%" >
+
+
+###### ~ ali azlan aziz - erevald
