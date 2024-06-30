@@ -33,6 +33,7 @@ const CreateAward = async (award: AwardModel, context: ContextModel, res: Respon
     });
 
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating award!',

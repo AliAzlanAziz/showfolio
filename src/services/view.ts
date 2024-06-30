@@ -8,7 +8,7 @@ import { getCurrentUTCTime } from '../helper/utils';
 
 const CreateView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    const oldView = await View.findOne({to: view.to}).sort({createdAt: 'desc'});
+    const oldView = await View.findOne({to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       const viewTimeValidTill = addHours(oldView.time, 3);
@@ -27,6 +27,14 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
           message: "View already exist!"
         })
       }
+    }else{
+      const newView = new View({
+        _id: new Types.ObjectId(),
+        user: context.user._id,
+        to: view.to,
+      })
+
+      await newView.save();
     }
 
     return res.status(200).json({
@@ -44,7 +52,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
 
 const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    const oldView = await View.findOne({to: view.to}).sort({createdAt: 'desc'});
+    const oldView = await View.findOne({to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       oldView.requested = true; 
@@ -64,16 +72,16 @@ const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: 
   }
 };
 
-const AllUserViews = async (context: ContextModel, res: Response) => {
+const UserViewsCount = async (context: ContextModel, res: Response) => {
   try {
     let totalViewsPromise = View.countDocuments({to: context.user._id}); 
-    let uniqueViewsPromise = View.find({to: context.user._id}).distinct('user').countDocuments(); 
+    let uniqueViewsPromise = View.find({to: context.user._id}).distinct('user'); 
 
     const [totalViews, uniqueViews] = await Promise.all([totalViewsPromise, uniqueViewsPromise])
 
     const views = {
       total: totalViews,
-      unique: uniqueViews
+      unique: uniqueViews.length
     }
 
     return res.status(200).json({
@@ -91,24 +99,65 @@ const AllUserViews = async (context: ContextModel, res: Response) => {
 
 const AllUserViewers = async (context: ContextModel, res: Response) => {
   try {
-    let viewers = await View.find({to: context.user._id}).distinct('user').populate('user', '_id name username imageURL public subsType').sort({time: 'desc'}); 
-
+    const viewers =  await View.aggregate([
+                            {
+                              $match: { to: context.user._id }
+                            },
+                            {
+                              $sort: { time: -1 }
+                            },
+                            {
+                              $group: {
+                                _id: '$user',
+                                doc: { $first: '$$ROOT' }
+                              }
+                            },
+                            {
+                              $replaceRoot: { newRoot: '$doc' }
+                            },
+                            {
+                              $lookup: {
+                                from: 'users',
+                                localField: 'user',
+                                foreignField: '_id',
+                                as: 'userDetails'
+                              }
+                            },
+                            {
+                              $unwind: '$userDetails'
+                            },
+                            {
+                              $project: {
+                                _id: 1,
+                                user: {
+                                  _id: '$userDetails._id',
+                                  name: '$userDetails.name',
+                                  imageURL: '$userDetails.imageURL',
+                                  public: '$userDetails.public',
+                                  subsType: '$userDetails.subsType'
+                                },
+                                requested: 1
+                              }
+                            }
+                        ]);
+    
     return res.status(200).json({
       success: true,
       data: viewers,
     });
 
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
-      message: 'Internal Server Error!',
+      message: 'Internal Server Error!'
     });
   }
 };
 
 const GetView = async (id: string, context: ContextModel, res: Response) => {
   try {
-    const view = await View.findOne({user: context.user._id, to: id}).sort({createdAt: 'desc'});
+    const view = await View.findOne({user: context.user._id, to: id}).sort({time: 'desc'});
 
     return res.status(200).json({
       success: true,
@@ -143,7 +192,7 @@ const GetViews = async (type: any, context: ContextModel, res: Response) => {
 export default {
   CreateView,
   CreateRequestInView,
-  AllUserViews,
+  UserViewsCount,
   AllUserViewers,
   GetView,
   GetViews,

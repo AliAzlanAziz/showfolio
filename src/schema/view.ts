@@ -1,6 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
 import { getCurrentUTCTime } from '../helper/utils';
-import { required } from '@hapi/joi';
 
 const viewSchema = new Schema({
     _id: {

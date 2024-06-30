@@ -16,9 +16,9 @@ router.post('/signup', userSignupValidator, userController.postSignup);
 
 router.post('/signin', userSigninValidator, userController.postSignin);
 
-router.put('/profile', isAuthenticated, userUpdateValidator, userController.putProfile);
+router.put('/profile', userUpdateValidator, isAuthenticated, userController.putProfile);
 
-router.put('/password', isAuthenticated, userUpdatePasswordValidator, userController.putUserPassword);
+router.put('/password', userUpdatePasswordValidator, isAuthenticated, userController.putUserPassword);
 
 router.get('/profile', isAuthenticated, userController.getProfile);
 

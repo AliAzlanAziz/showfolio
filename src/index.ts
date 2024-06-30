@@ -19,7 +19,7 @@ connectCloudinary()
 
 const app: Express = express()
 app.use('/stripe', express.raw({type: 'application/json'}), stripeRoutes)
-app.use(express.json({ limit: '50Mb' }));
+app.use(express.json({ limit: '15Mb' }));
 
 app.use(cors());
 
