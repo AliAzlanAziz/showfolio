@@ -154,6 +154,7 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
     });
 
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',

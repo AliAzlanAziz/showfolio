@@ -151,7 +151,8 @@ const userSchema = new Schema({
         default: null
     },
     tags: {
-        type: String
+        type: String,
+        default: ''
     },
     points: {
         type: Number,
