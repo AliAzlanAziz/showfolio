@@ -43,6 +43,7 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
 
     return true
   } catch (error) {
+    console.log(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
