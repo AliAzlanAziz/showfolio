@@ -20,10 +20,12 @@ export const sendPasswordResetCodeMail = async (receiver: string, code: string) 
     sendSmtpEmail.subject = CONSTANTS.PASSWORD_RESET_CODE_MAIL_SUBJECT;
     sendSmtpEmail.htmlContent = htmlMail;
 
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    const mailRes = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(mailRes)    
 
     return true
   } catch (error) {
+    console.log(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
