@@ -3,6 +3,7 @@ import { SendSmtpEmail } from '@sendinblue/client';
 import * as fs from 'fs';
 import { CONSTANTS } from '../constants/constants';
 import * as dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -51,7 +52,7 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
 }
 
 const getPasswordResetCodeHTMLMail = (receiver: string, code: string) => {
-  let htmlMail = fs.readFileSync(__dirname + './../assets/htmlMail/PasswordResetCodeMail.html', 'utf8')
+  let htmlMail = fs.readFileSync(path.join(__dirname + './../assets/htmlMail/PasswordResetCodeMail.html'), 'utf8')
 
   htmlMail = htmlMail.replace(CONSTANTS.RECEIVER_EMAIL_HOLDER, receiver)
   htmlMail = htmlMail.replace(CONSTANTS.PASSWORD_RESET_CODE_HOLDER, code)
@@ -60,7 +61,7 @@ const getPasswordResetCodeHTMLMail = (receiver: string, code: string) => {
 }
 
 const getAfterPasswordResetHTMLMail = (receiver: string) => {
-  let htmlMail = fs.readFileSync(__dirname + './../assets/htmlMail/AfterPasswordResetMail.html', 'utf8')
+  let htmlMail = fs.readFileSync(path.join(__dirname + './../assets/htmlMail/AfterPasswordResetMail.html'), 'utf8')
 
   htmlMail = htmlMail.replace(CONSTANTS.RECEIVER_EMAIL_HOLDER, receiver)
 
