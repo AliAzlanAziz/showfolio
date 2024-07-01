@@ -26,7 +26,6 @@ export const sendPasswordResetCodeMail = async (receiver: string, code: string) 
 
     return true
   } catch (error) {
-    console.log(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
@@ -46,7 +45,6 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
 
     return true
   } catch (error) {
-    console.log(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
