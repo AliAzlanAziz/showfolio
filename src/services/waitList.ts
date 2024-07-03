@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import WaitList from '../schema/waitList';
+import { sendWaitingListJoinedMail } from '../helper/mailer';
 
 const CreateWaitList = async (req: Request, res: Response) => {
   try{
@@ -10,6 +11,8 @@ const CreateWaitList = async (req: Request, res: Response) => {
     })
 
     await newWaitList.save();
+
+    sendWaitingListJoinedMail(newWaitList.email);
 
     return res.status(200).send({
       success: true,

@@ -48,6 +48,25 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
   }
 }
 
+export const sendWaitingListJoinedMail = async (receiver: string) => {
+  try {
+    const htmlMail = getWaitingListJoinedHTMLMail(receiver);
+
+    const sendSmtpEmail = new SendSmtpEmail();
+
+    sendSmtpEmail.sender = { name: 'Showfolio', email: 'aliazlan2002@gmail.com' };
+    sendSmtpEmail.to = [{ email: receiver }];
+    sendSmtpEmail.subject = CONSTANTS.WAITING_LIST_JOINED_MAIL_SUBJECT;
+    sendSmtpEmail.htmlContent = htmlMail;
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+
+    return true
+  } catch (error) {
+    throw new Error('Error sending reset code to the email!');
+  }
+}
+
 const getPasswordResetCodeHTMLMail = (receiver: string, code: string) => {
   let htmlMail = fs.readFileSync(path.join(__dirname + './../assets/htmlMail/PasswordResetCodeMail.html'), 'utf8')
 
@@ -59,6 +78,14 @@ const getPasswordResetCodeHTMLMail = (receiver: string, code: string) => {
 
 const getAfterPasswordResetHTMLMail = (receiver: string) => {
   let htmlMail = fs.readFileSync(path.join(__dirname + './../assets/htmlMail/AfterPasswordResetMail.html'), 'utf8')
+
+  htmlMail = htmlMail.replace(CONSTANTS.RECEIVER_EMAIL_HOLDER, receiver)
+
+  return htmlMail;
+}
+
+const getWaitingListJoinedHTMLMail = (receiver: string) => {
+  let htmlMail = fs.readFileSync(path.join(__dirname + './../assets/htmlMail/WaitingListJoinedMail.html'), 'utf8')
 
   htmlMail = htmlMail.replace(CONSTANTS.RECEIVER_EMAIL_HOLDER, receiver)
 

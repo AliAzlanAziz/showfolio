@@ -7,4 +7,5 @@ export const CONSTANTS = {
     PASSWORD_RESET_CODE_HOLDER: 'PASSWORD_RESET_CODE',
     PASSWORD_RESET_CODE_MAIL_SUBJECT: 'Reset your password!',
     AFTER_PASSWORD_RESET_MAIL_SUBJECT: 'Password Has Been Reset!',
+    WAITING_LIST_JOINED_MAIL_SUBJECT: 'Added To Waiting List!',
 }
