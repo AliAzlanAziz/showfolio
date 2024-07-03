@@ -17,6 +17,10 @@ const postForgotPassword = (req: Request, res: Response) => {
   return userService.ForgotPassword(req.body.user, res);
 };
 
+const postResetPasswordCodeVerify = (req: Request, res: Response) => {
+  return userService.ResetPasswordCodeVerification(req.body.user, res);
+};
+
 const postResetPassword = (req: Request, res: Response) => {
   return userService.ResetPassword(req.body.user, res);
 };
@@ -50,6 +54,7 @@ export default {
   postSignup,
   postSignin,
   postForgotPassword,
+  postResetPasswordCodeVerify,
   postResetPassword,
   getSelfProfile,
   putProfile,

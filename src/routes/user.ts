@@ -8,6 +8,7 @@ import { userForgetPasswordValidator } from '../validators/userForgetPassword.va
 import { userResetPasswordValidator } from '../validators/userResetPassword.validator';
 import { userUpdatePasswordValidator } from '../validators/userUpdatePassword.validator';
 import { mongooseObjectIdValidator } from '../validators/mongooseObjectId.validator';
+import { userResetPasswordCodeValidator } from '../validators/userResetPasswordCode.validator';
 
 const router: Router = express.Router();
 
@@ -26,6 +27,8 @@ router.put('/toggle-public', isAuthenticated, userController.putProfilePublicTog
 router.get('/profile', isAuthenticated, userController.getSelfProfile);
 
 router.post('/forgot-password', userForgetPasswordValidator, userController.postForgotPassword);
+
+router.post('/verify-reset-password-code', userResetPasswordCodeValidator, userController.postResetPasswordCodeVerify);
 
 router.post('/reset-password', userResetPasswordValidator, userController.postResetPassword);
 

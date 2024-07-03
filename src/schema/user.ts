@@ -147,6 +147,10 @@ const userSchema = new Schema({
         type: String,
         match: /^[0-9]{6}$/
     },
+    token: {
+        type: String,
+        match: /^[0-9]{12}$/
+    },
     validTill: {
         type: Date,
         default: null

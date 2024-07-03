@@ -2,8 +2,7 @@ import Joi from '@hapi/joi';
 import { Request, Response, NextFunction } from 'express';
 
 const userResetPasswordSchema = Joi.object({
-    email: Joi.string().trim().email().required(),
-    code: Joi.string().trim().length(6).regex(/^\d{6}$/).required(),
+    token: Joi.string().trim().length(12).regex(/^\d{12}$/).required(),
     password: Joi.string().trim().required(),
     confirmPassword: Joi.string().trim().required().valid(Joi.ref('password')).messages({
         'any.only': 'Passwords do not match'

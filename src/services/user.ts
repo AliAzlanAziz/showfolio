@@ -12,7 +12,7 @@ import { CONSTANTS } from '../constants/constants';
 import { gen } from 'n-digit-token';
 import { getCurrentUTCTime } from '../helper/utils';
 import { sendAfterPasswordResetMail, sendPasswordResetCodeMail } from '../helper/mailer';
-import { addHours, isAfter, subHours } from 'date-fns';
+import { addHours, addMinutes, isAfter, subHours } from 'date-fns';
 import { UserResetPasswordModel } from '../models/userResetPassword.model';
 import workInfoService from './workInfo'
 import projectService from './project'
@@ -139,9 +139,14 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
       });
     }
 
-    const token: string = gen(6);
+    let code: string = gen(6);
+    while(code == "000000"){
+      code = gen(6);  
+    }
+    const token: string = gen(12);
 
-    userExist.code = token;
+    userExist.code = code;
+    userExist.token = token;
     userExist.validTill = getCurrentUTCTime()
 
     await userExist.save();
@@ -150,7 +155,56 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
 
     return res.status(200).json({
       success: true,
+      token: token,
       message: 'Password reset code has been sent to the mail!'
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Error sending reset code to the email!',
+    });
+  }
+};
+
+const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: Response) => {
+  try {
+    const userExist = await User.findOne({ email: user.email });
+
+    if (!userExist) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email!'
+      });
+    }
+
+    if (userExist.code != user.code) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid code!'
+      });
+    }
+
+    const codeValidFor = addMinutes(userExist.validTill, 5);
+    if (isAfter(getCurrentUTCTime(), codeValidFor)) {
+      userExist.token = null;
+      userExist.code = null;
+      userExist.validTill = subHours(userExist.validTill, 24);
+
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid code!'
+      });
+    }
+
+    userExist.code = "000000";
+    userExist.validTill = getCurrentUTCTime();
+
+    await userExist.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Code verified!'
     });
 
   } catch (error) {
@@ -163,21 +217,24 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
 
 const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
   try {
-    const userExist = await User.findOne({ email: user.email });
+    const userExist = await User.findOne({ token: user.token, code: "000000" });
 
     if (!userExist) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid email!'
+        message: 'Invalid token!'
       });
     }
 
-    const codeValidFor = addHours(userExist.validTill, 24);
+    const tokenValidFor = addHours(userExist.validTill, 24);
+    if (isAfter(getCurrentUTCTime(), tokenValidFor)) {
+      userExist.token = null;
+      userExist.code = null;
+      userExist.validTill = subHours(userExist.validTill, 24);
 
-    if ((userExist.code != user.code) || isAfter(getCurrentUTCTime(), codeValidFor)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid code!'
+        message: 'Invalid token!'
       });
     }
 
@@ -192,7 +249,8 @@ const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
 
     userExist.password = hash;
     userExist.code = null;
-    userExist.validTill = subHours(userExist.validTill, 24);;
+    userExist.token = null;
+    userExist.validTill = subHours(userExist.validTill, 24);
 
     await userExist.save();
 
@@ -461,6 +519,7 @@ export default {
   Signup,
   Signin,
   ForgotPassword,
+  ResetPasswordCodeVerification,
   ResetPassword,
   GetSelfProfile,
   UpdateProfile,
