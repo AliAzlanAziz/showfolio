@@ -238,7 +238,8 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       },
       languages: user.languages,
       toWork: user.toWork,
-      toHire: user.toHire
+      toHire: user.toHire,
+      gender: user.gender
     }
     
     await User.findByIdAndUpdate(context.user._id, updatedProfile)

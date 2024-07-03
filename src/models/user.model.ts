@@ -32,4 +32,8 @@ export class UserModel {
     paidDate: Date;
     subsType: number;
     code: string;
+    // tags: string;
+    // points: string;
+    // validTill: Date;
+    gender: string;
 }
