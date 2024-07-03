@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import connectDB  from './config/db';
+import waitListRoutes from './routes/waitList';
 import userRoutes from './routes/user';
 import workInfoRoutes from './routes/workInfo';
 import projectRoutes from './routes/project';
@@ -30,6 +31,7 @@ if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
 
+app.use('/waitList', waitListRoutes)
 app.use('/user', userRoutes)
 app.use('/workInfo', workInfoRoutes)
 app.use('/project', projectRoutes)
