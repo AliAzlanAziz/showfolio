@@ -25,6 +25,7 @@ const userUpdateSchema = Joi.object({
     ).optional(),
     toWork: Joi.boolean().optional(),
     toHire: Joi.boolean().optional(),
+    gender: Joi.string().valid('M','F','N').optional(),
     uploadingImage: Joi.boolean().optional(),
     base64Image: Joi.string().when('uploadingImage', {
         is: true,
