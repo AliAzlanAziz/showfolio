@@ -1,5 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
 import { SubscriptionType } from '../enums/subscriptionType.enum';
+import { GenderType } from '../enums/genderType.enum';
 
 const userSchema = new Schema({
     _id: {
@@ -35,7 +36,7 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        unique: true,
+        // unique: true,
         match: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
         min: 9,
         max: 128
@@ -157,7 +158,12 @@ const userSchema = new Schema({
     points: {
         type: Number,
         default: 0
-    }
+    },
+    gender: {
+        type: String,
+        enum: [GenderType.MALE, GenderType.FEMALE, GenderType.PREFER_NOT_SAY],
+        default: null
+    },
 })
 
 const User = model('User', userSchema);

@@ -18,8 +18,7 @@ const workInfoSchema = new Schema({
     },
     jobMode: {
         type: Number,
-        enum: [JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID],
-        required: true
+        enum: [JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID]
     },
     title: { // degree, designation, certificate name
         type: String,

@@ -11,10 +11,11 @@ import viewRoutes from './routes/view';
 import subscriptionRoutes from './routes/subscription';
 import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
+import { insertDummyData } from './dump/insert';
 
 dotenv.config({ path: __dirname + '/config/config.env' })
 
-connectDB()
+connectDB()//.then(async () => await insertDummyData()); // uncomment code to insert dummyUsers
 connectCloudinary()
 
 const app: Express = express()
@@ -36,8 +37,8 @@ app.use('/award', awardRoutes)
 app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
 
-app.listen(process.env.PORT, () =>
+app.listen(process.env.PORT, async () => {
     console.log(`Server ready at http://localhost:${process.env.PORT}`)
-)
+})
 
 export default app;
