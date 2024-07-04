@@ -170,6 +170,12 @@ const userSchema = new Schema({
     },
 })
 
+userSchema.pre('save', function() {
+  this.email = this.email.toLocaleLowerCase();
+  this.username = this.username.toLocaleLowerCase();
+});
+
+
 const User = model('User', userSchema);
 
 export default User;
