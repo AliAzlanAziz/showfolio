@@ -522,6 +522,7 @@ const DeleteAccount = async (context: ContextModel, res: Response) => {
     await projectService.DeleteUserAllProjects(userId);
     await awardService.DeleteUserAllAwards(userId);
     await viewService.DeleteUserAllViews(userId);
+    await User.findByIdAndDelete(userId);
     // TODO: do not delete views as we are not deleting subscriptions too
 
     return res.status(200).json({
