@@ -5,7 +5,7 @@ const userSignupSchema = Joi.object({
     name: Joi.string().trim().min(4).max(128).required(),
     email: Joi.string().trim().email().required(),
     username: Joi.string().trim().min(4).max(128).required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(8).max(20).alphanum().required(),
     confirmPassword: Joi.string().required().valid(Joi.ref('password')).messages({
         'any.only': 'Passwords do not match'
     })
