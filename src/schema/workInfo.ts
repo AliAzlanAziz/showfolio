@@ -41,7 +41,7 @@ const workInfoSchema = new Schema({
     desc: { 
         type: String,
         min: 1,
-        max: 256
+        max: 1024
     },
     address: {
         city: {

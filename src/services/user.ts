@@ -413,7 +413,7 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
       profile: profile,
       educations: edu,
       experiences: exp,
-      certifications: cert,
+      certificates: cert,
       projects: proj,
       awards: award
     });

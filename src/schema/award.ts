@@ -19,7 +19,7 @@ const awardSchema = new Schema({
         type: String,
         required: true,
         min: 1,
-        max: 512
+        max: 1024
     },
     year: { 
         type: Number
