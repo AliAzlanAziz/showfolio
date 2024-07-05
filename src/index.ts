@@ -1,6 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import * as dotenv from 'dotenv';
-import morgan from 'morgan';
 import cors from 'cors';
 import connectDB  from './config/db';
 import waitListRoutes from './routes/waitList';
@@ -13,6 +12,20 @@ import subscriptionRoutes from './routes/subscription';
 import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
 import { insertDummyData } from './dump/insert';
+import winston from 'winston';
+
+// TODO: SETUP WINSTON
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.timestamp(), 
+    winston.format.json()
+  ),
+  transports: [
+    new (winston.transports.Console)({
+        format: winston.format.colorize({all: true})
+    })
+  ],
+});
 
 dotenv.config({ path: __dirname + '/config/config.env' })
 
@@ -23,11 +36,19 @@ const app: Express = express()
 app.use('/stripe', express.raw({type: 'application/json'}), stripeRoutes)
 app.use(express.json({ limit: '15Mb' }));
 
+// Request logger
+// TODO: Separate it to some folder
+app.use((req, res, next)=>{
+  logger.info(`${req.method} ${req.originalUrl}`);
+  return next();
+})
+
 app.use(cors());
 
-if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
-    app.use(morgan('dev'));
-}
+// TODO: UNINSTALL MORGAN
+// if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
+//     app.use(morgan('dev'));
+// }
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
 
