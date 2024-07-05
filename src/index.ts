@@ -39,10 +39,12 @@ app.use(express.json({ limit: '15Mb' }));
 // Request logger
 // TODO: Separate it to some folder
 app.use((req, res, next)=>{
-  logger.info(`${req.method} ${req.originalUrl}`);
+  req.on("end", () => {
+    logger.info(`${res.statusCode} ${req.method} ${req.originalUrl}`);
+  });
+  
   return next();
 })
-
 app.use(cors());
 
 // TODO: UNINSTALL MORGAN
