@@ -199,6 +199,10 @@ const GetUserWorkInfosCount = async (id: string, type: number) => {
   return WorkInfo.find({user: id, type: type}).countDocuments();
 };
 
+const DeleteUserAllWorkInfo = async (id: string) => {
+  return WorkInfo.deleteMany({user: id});
+};
+
 export default {
   CreateWorkInfo,
   UpdateWorkInfo,
@@ -206,5 +210,6 @@ export default {
   GetWorkInfos,
   DeleteWorkInfo,
   GetUserWorkInfos,
-  GetUserWorkInfosCount
+  GetUserWorkInfosCount,
+  DeleteUserAllWorkInfo
 }

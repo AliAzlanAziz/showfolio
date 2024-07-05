@@ -49,6 +49,10 @@ const getSearchProfiles = (req: Request, res: Response) => {
   return userService.SearchProfiles(req.query, res)
 }
 
+const deleteAccount = (req: Request, res: Response) => {
+  return userService.DeleteAccount(req.context, res)
+}
+
 export default {
   checkReachable,
   postSignup,
@@ -61,5 +65,6 @@ export default {
   putUserPassword,
   putProfilePublicToggle,
   getUserProfile,
-  getSearchProfiles
+  getSearchProfiles,
+  deleteAccount
 }

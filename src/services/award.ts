@@ -129,11 +129,16 @@ const GetUserAwards = async (id: string) => {
   return Award.find({user: id}).sort({ year: 'desc' });
 };
 
+const DeleteUserAllAwards = async (id: string) => {
+  return Award.deleteMany({user: id});
+};
+
 export default {
   CreateAward,
   UpdateAward,
   GetAward,
   GetAwards,
   DeleteAward,
-  GetUserAwards
+  GetUserAwards,
+  DeleteUserAllAwards
 }

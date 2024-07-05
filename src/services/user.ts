@@ -514,6 +514,29 @@ const SearchProfiles = async (query: any, res: Response) => {
 
 }
 
+const DeleteAccount = async (context: ContextModel, res: Response) => {
+  try {
+    const userId = context.user._id;
+
+    await workInfoService.DeleteUserAllWorkInfo(userId);
+    await projectService.DeleteUserAllProjects(userId);
+    await awardService.DeleteUserAllAwards(userId);
+    await viewService.DeleteUserAllViews(userId);
+    // TODO: do not delete views as we are not deleting subscriptions too
+
+    return res.status(200).json({
+      success: true,
+      message: 'Account deleted successfully'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+
+}
+
 export default {
   CheckReachable,
   Signup,
@@ -526,5 +549,6 @@ export default {
   UpdateUserPassword,
   GetUserProfile,
   ProfilePublicToggle,
-  SearchProfiles
+  SearchProfiles,
+  DeleteAccount
 }

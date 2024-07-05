@@ -36,4 +36,6 @@ router.get('/:id', mongooseObjectIdValidator, isAuthenticated, userController.ge
 
 router.get('/search', isAuthenticated, userController.getSearchProfiles);
 
+router.delete('/delete', isAuthenticated, userController.deleteAccount);
+
 export default router;

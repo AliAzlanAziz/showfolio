@@ -61,7 +61,7 @@ app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
 
 app.listen(process.env.PORT, async () => {
-    console.log(`Server ready at http://localhost:${process.env.PORT}`)
+  console.log(`Server ready at http://localhost:${process.env.PORT}`)
 })
 
 export default app;

@@ -151,6 +151,10 @@ const GetUserProjectsCount = async (id: string) => {
   return Project.find({user: id}).countDocuments();
 };
 
+const DeleteUserAllProjects = async (id: string) => {
+  return Project.deleteMany({user: id});
+};
+
 export default {
   CreateProject,
   UpdateProject,
@@ -158,5 +162,6 @@ export default {
   GetProjects,
   DeleteProject,
   GetUserProjects,
-  GetUserProjectsCount
+  GetUserProjectsCount,
+  DeleteUserAllProjects
 }

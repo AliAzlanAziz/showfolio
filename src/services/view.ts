@@ -193,6 +193,10 @@ const GetLastViewOfUserId = async (id: string, context: ContextModel) => {
   return View.findOne({to: id, user: context.user._id}).sort({time: 'desc'});
 };
 
+const DeleteUserAllViews = async (id: string) => {
+  return View.deleteMany({user: id});
+};
+
 export default {
   CreateView,
   CreateRequestInView,
@@ -200,5 +204,6 @@ export default {
   AllUserViewers,
   GetView,
   GetViews,
-  GetLastViewOfUserId
+  GetLastViewOfUserId,
+  DeleteUserAllViews
 }
