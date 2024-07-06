@@ -39,9 +39,7 @@ app.use(express.json({ limit: '15Mb' }));
 // Request logger
 // TODO: Separate it to some folder
 app.use((req, res, next)=>{
-  req.on("end", () => {
-    logger.info(`${res.statusCode} ${req.method} ${req.originalUrl}`);
-  });
+  logger.info(`${res.statusCode} ${req.method} ${req.originalUrl}`);
   
   return next();
 })
