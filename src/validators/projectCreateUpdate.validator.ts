@@ -22,11 +22,6 @@ const projectCreateUpdateSchema = Joi.object({
             return helpers.message({ custom: '"from" date must be before "to" date' });
         }
     }
-    // if (obj?.uploadingImage) {
-    //     if (obj.base64Image == undefined || obj.base64Image == null || obj.base64Image == '') {
-    //         return helpers.message({ custom: '"base64Image" field must not be empty when "uploadingImage: true"' });
-    //     }
-    // }
     return obj;
 });
 

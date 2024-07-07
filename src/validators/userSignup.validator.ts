@@ -9,6 +9,12 @@ const userSignupSchema = Joi.object({
     confirmPassword: Joi.string().required().valid(Joi.ref('password')).messages({
         'any.only': 'Passwords do not match'
     })
+}).custom((obj, helpers) => {
+    const username: String = obj.username
+    if (username && (username.indexOf(' ') != -1)) {
+        return helpers.message({ custom: 'username must not contain any whitespaces' });
+    }
+    return obj;
 });
 
 export const userSignupValidator = (req: Request, res: Response, next: NextFunction) => {

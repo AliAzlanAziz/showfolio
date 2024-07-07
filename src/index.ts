@@ -22,7 +22,7 @@ const logger = winston.createLogger({
   ),
   transports: [
     new (winston.transports.Console)({
-        format: winston.format.colorize({all: true})
+      format: winston.format.colorize({all: true})
     })
   ],
 });
@@ -44,11 +44,6 @@ app.use((req, res, next)=>{
   return next();
 })
 app.use(cors());
-
-// TODO: UNINSTALL MORGAN
-// if(process.env.NODE_ENV == 'DEV' || process.env.NODE_ENV == 'PROD') {
-//     app.use(morgan('dev'));
-// }
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
 

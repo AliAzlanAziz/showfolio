@@ -1,6 +1,7 @@
 import { model, Schema, Types } from 'mongoose';
 import { SubscriptionType } from '../enums/subscriptionType.enum';
 import { GenderType } from '../enums/genderType.enum';
+import { getCurrentUTCTime } from '../helper/utils';
 
 const userSchema = new Schema({
     _id: {
@@ -168,11 +169,20 @@ const userSchema = new Schema({
         enum: [GenderType.MALE, GenderType.FEMALE, GenderType.PREFER_NOT_SAY],
         default: null
     },
+    createdAt: {
+        type: Date,
+        default: getCurrentUTCTime()
+    },
+    lastActivity: {
+        type: Date,
+        default: getCurrentUTCTime()
+    }
 })
 
 userSchema.pre('save', function() {
-  this.email = this.email.toLocaleLowerCase();
-  this.username = this.username.toLocaleLowerCase();
+    this.email = this.email.toLocaleLowerCase();
+    this.username = this.username.toLocaleLowerCase();
+    this.lastActivity = getCurrentUTCTime()
 });
 
 
