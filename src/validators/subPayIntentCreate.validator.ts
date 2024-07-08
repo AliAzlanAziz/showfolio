@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { SubscriptionType } from '../enums/subscriptionType.enum';
 
 const subsPayIntentCreateSchema = Joi.object({
-    type: Joi.number().valid(SubscriptionType.MONTHLY, SubscriptionType.YEARLY).required()
+    subsType: Joi.number().valid(SubscriptionType.MONTHLY, SubscriptionType.YEARLY).required()
 })
 
 export const subsPayIntentCreateValidator = (req: Request, res: Response, next: NextFunction) => {
