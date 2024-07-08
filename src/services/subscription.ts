@@ -70,11 +70,13 @@ const calculateSubscriptionAmount = (type: SubscriptionType) => {
 const returnPackages = () => {
   const packages = {
     monthly: {
+      label: 'Monthly',
       text: 'Pay as you go!',
       type: SubscriptionType.MONTHLY,
       amount: 10
     },
     yearly: {
+      label: 'Annually',
       text: 'Save 33% on annual subscription!',
       type: SubscriptionType.YEARLY,
       amount: 80
