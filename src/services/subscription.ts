@@ -74,11 +74,11 @@ const returnPackages = () => {
       text: 'Pay as you go!',
       subsType: SubscriptionType.MONTHLY,
       amount: 15,
-      discount: 0
+      discount: 20
     },
     {
       label: 'Annually',
-      text: 'Save 33% on annual subscription!',
+      text: 'Save 20% on annual subscription!',
       subsType: SubscriptionType.YEARLY,
       amount: 150,
       discount: 20
