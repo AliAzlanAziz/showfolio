@@ -19,23 +19,23 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
       })
     }
 
-    const amount = calculateSubscriptionAmount(subscription.type);
+    const amount = calculateSubscriptionAmount(subscription.subsType);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
       currency: "usd",
       metadata: {
         userId: context.user._id.toString(),
-        subscriptionType: subscription.type.toString(),
+        subscriptionType: subscription.subsType.toString(),
         time: getCurrentUTCTime().toUTCString(),
-        amount: `${amount}`
+        amount: `${amount * 100} $`
       },
       automatic_payment_methods: { enabled: true }
     });
 
     return res.status(200).send({
       success: true,
-      clientSecret: paymentIntent.client_secret,
+      paymentIntent: paymentIntent.client_secret,
     });
   } catch (error: any) {
     console.log(error?.raw?.message)
@@ -55,15 +55,15 @@ const Packages = (res: Response) => {
   })
 }
 
-const calculateSubscriptionAmount = (type: SubscriptionType) => {
+const calculateSubscriptionAmount = (subsType: SubscriptionType) => {
   const packages = returnPackages()
   
-  if(isMonthly(type)){
-    return packages[0].amount;
-  }else if(isYearly(type)){
-    return packages[1].amount;
+  if(isMonthly(subsType)){
+    return packages[0].amount - (packages[0].amount*packages[0].discount/100);
+  }else if(isYearly(subsType)){
+    return packages[1].amount - (packages[1].amount*packages[1].discount/100);
   }else{
-    throw Error('Payment intents can only be created for monthly or yearly type subscription payments!');
+    throw Error('Payment intents can only be created for monthly or yearly subsType subscription payments!');
   }
 }
 
