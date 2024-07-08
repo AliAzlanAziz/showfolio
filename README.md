@@ -5,8 +5,8 @@ building this project for the buildspace sage s5 nights and weekends
 
 <br>
 
-### Week#01 Idea+Description
-one liner: mobile app to make portfolio 
+### week#01 idea+description
+one liner: a mobile app to make portfolio 
 
 description: 
 - building the app as there are no portfolio apps currently (just 2 are there i.e. behance and efolio). i feel there is a gap that i can bridge. 
@@ -17,7 +17,7 @@ these are the apis, will link the frontend soon
 
 <br>
 
-### Week#02 Toy
+### week#02 toy
 
 - i have made almost all the restful apis by now in nodejs typescript. (this is the api repo)
 - i have to implement two things now, one is ml/ai model to rate the portfolios of users.
@@ -29,9 +29,18 @@ toy is this api + screenshot of the app below (still under progress)
 
 <br>
 
-### Week#03 Get people to care
+### week#03 get people to care
 
-##### I just made the logo of my app
-<img src="https://i.imgur.com/tMj4ZeX.jpeg" alt="mobile app logo" height="15%" width="15%" />
+#### first launch:
+[_link to first launch_](https://www.linkedin.com/feed/update/urn:li:activity:7214616146413555714/)
+
+##### progress in week#03
+
+_first preview of the showfolio app_: [_Link to first preview screenshots_](https://www.linkedin.com/feed/update/urn:li:activity:7216068132552003585/)
+<br>
+
+_if anyone wants to play with the first preview aka Showfolio app_: [_Link to showfolio app (first preview) apk file_](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
+
+<br>
 
 ###### ~ ali azlan aziz - erevald
