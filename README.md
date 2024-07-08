@@ -6,7 +6,7 @@ building this project for the buildspace sage s5 nights and weekends
 <br>
 
 ### week#01 idea+description
-one liner: mobile app to make portfolio 
+one liner: a mobile app to make portfolio 
 
 description: 
 - building the app as there are no portfolio apps currently (just 2 are there i.e. behance and efolio). i feel there is a gap that i can bridge. 
@@ -40,6 +40,7 @@ _first preview of the showfolio app_: [_Link to first preview screenshots_](http
 <br>
 
 _if anyone wants to play with the first preview aka Showfolio app_: [_Link to showfolio app (first preview) apk file_](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
+
 <br>
 
 ###### ~ ali azlan aziz - erevald
