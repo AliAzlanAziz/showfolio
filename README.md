@@ -32,11 +32,11 @@ toy is this api + screenshot of the app below (still under progress)
 ### week#03 get people to care
 
 #### first launch:
-[_link to first launch_](https://www.linkedin.com/feed/update/urn:li:activity:7214616146413555714/)
+[_link to first launch {linkedin post}_](https://www.linkedin.com/feed/update/urn:li:activity:7214616146413555714/)
 
 ##### progress in week#03
 
-_first preview of the showfolio app_: [_Link to first preview screenshots_](https://www.linkedin.com/feed/update/urn:li:activity:7216068132552003585/)
+_first preview of the showfolio app_: [_Link to first preview screenshots {linkedin post}_](https://www.linkedin.com/feed/update/urn:li:activity:7216068132552003585/)
 <br>
 
 _if anyone wants to play with the first preview aka Showfolio app_: [_Link to showfolio app (first preview) apk file_](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
