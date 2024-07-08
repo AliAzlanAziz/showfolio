@@ -21,7 +21,7 @@ const workInfoCreateUpdateSchema = Joi.object({
         details: Joi.string().trim().min(1).max(256).optional()
     }).optional(),
     type: Joi.number().valid(WorkInfoType.EDUCATION, WorkInfoType.EXPERIENCE, WorkInfoType.CERTIFICATE).required(),
-    jobMode: Joi.number().valid(JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID).required(),
+    jobMode: Joi.number().valid(JobModeType.REMOTE, JobModeType.ONSITE, JobModeType.HYBRID).optional(),
     name: Joi.string().trim().min(1).max(256).required(),
 }).custom((obj, helpers) => {
     if (obj.from && obj.to) {
