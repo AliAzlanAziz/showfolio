@@ -40,6 +40,9 @@ _first preview of the showfolio app_: [_Link to first preview screenshots_](http
 <br>
 
 _if anyone wants to play with the first preview aka Showfolio app_: [_Link to showfolio app (first preview) apk file_](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
+<br>
+
+_the user profile analyzer i built:_ [_link to user profile analyzer aka node-llama-cpp-project_](https://github.com/AliAzlanAziz/node-llama-cpp-project)
 
 <br>
 
