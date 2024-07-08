@@ -59,29 +59,31 @@ const calculateSubscriptionAmount = (type: SubscriptionType) => {
   const packages = returnPackages()
   
   if(isMonthly(type)){
-    return packages.monthly.amount;
+    return packages[0].amount;
   }else if(isYearly(type)){
-    return packages.yearly.amount;
+    return packages[1].amount;
   }else{
     throw Error('Payment intents can only be created for monthly or yearly type subscription payments!');
   }
 }
 
 const returnPackages = () => {
-  const packages = {
-    monthly: {
+  const packages = [
+    {
       label: 'Monthly',
       text: 'Pay as you go!',
-      type: SubscriptionType.MONTHLY,
-      amount: 10
+      subsType: SubscriptionType.MONTHLY,
+      amount: 15,
+      discount: 0
     },
-    yearly: {
+    {
       label: 'Annually',
       text: 'Save 33% on annual subscription!',
-      type: SubscriptionType.YEARLY,
-      amount: 80
+      subsType: SubscriptionType.YEARLY,
+      amount: 150,
+      discount: 20
     }
-  }
+  ]
 
   return packages;
 }
