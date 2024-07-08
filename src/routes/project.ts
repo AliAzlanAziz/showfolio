@@ -15,6 +15,6 @@ router.get('/:id', isAuthenticated, projectController.getProject);
 
 router.get('/', isAuthenticated, projectController.getProjects);
 
-router.delete('/:id', mongooseObjectIdValidator, isAuthenticated, isUsersProject, projectController.deleteProject);
+router.delete('/:id', isAuthenticated, isUsersProject, projectController.deleteProject);
 
 export default router;

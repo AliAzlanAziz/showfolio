@@ -15,6 +15,6 @@ router.get('/:id', isAuthenticated, workInfoController.getWorkInfo);
 
 router.get('/', isAuthenticated, workInfoController.getWorkInfos);
 
-router.delete('/:id', mongooseObjectIdValidator, isAuthenticated, isUsersWorkInfo, workInfoController.deleteWorkInfo);
+router.delete('/:id', isAuthenticated, isUsersWorkInfo, workInfoController.deleteWorkInfo);
 
 export default router;

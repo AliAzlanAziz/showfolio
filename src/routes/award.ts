@@ -15,6 +15,6 @@ router.get('/:id', isAuthenticated, awardController.getAward);
 
 router.get('/', isAuthenticated, awardController.getAwards);
 
-router.delete('/:id', mongooseObjectIdValidator, isAuthenticated, isUsersAward, awardController.deleteAward);
+router.delete('/:id', isAuthenticated, isUsersAward, awardController.deleteAward);
 
 export default router;

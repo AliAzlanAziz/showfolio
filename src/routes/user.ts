@@ -32,7 +32,7 @@ router.post('/verify-reset-password-code', userResetPasswordCodeValidator, userC
 
 router.post('/reset-password', userResetPasswordValidator, userController.postResetPassword);
 
-router.get('/:id', mongooseObjectIdValidator, isAuthenticated, userController.getUserProfile);
+router.get('/:id', isAuthenticated, userController.getUserProfile);
 
 router.get('/search', isAuthenticated, userController.getSearchProfiles);
 
