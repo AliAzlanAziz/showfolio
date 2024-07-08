@@ -31,15 +31,15 @@ toy is this api + screenshot of the app below (still under progress)
 
 ### week#03 get people to care
 
-i just made the logo of my app
-<br>
-<img src="https://i.imgur.com/tMj4ZeX.jpeg" alt="mobile app logo" height="15%" width="15%" />
+#### first launch:
+[_link to first launch_](https://www.linkedin.com/feed/update/urn:li:activity:7214616146413555714/)
+
+##### progress in week#03
+
+_first preview of the showfolio app_: [Link to first preview screenshots](https://www.linkedin.com/feed/update/urn:li:activity:7216068132552003585/)
 <br>
 
-first preview of the showfolio app: [Link to first preview screenshots](https://www.linkedin.com/feed/update/urn:li:activity:7216068132552003585/)
-<br>
-
-if anyone wants to play with the first preview aka Showfolio app: [Link to showfolio app (first preview) apk file](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
+_if anyone wants to play with the first preview aka Showfolio app_: [Link to showfolio app (first preview) apk file](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
 <br>
 
 ###### ~ ali azlan aziz - erevald
