@@ -13,9 +13,11 @@ const stripe = new Stripe(process.env.STRIPE_WEBHOOK_SECRET_KEY || '')
 const Webhook = async (req: Request, res: Response) => {
   try{
     const signature = req.headers['stripe-signature'] as string;
+    console.log("signature")
+    console.log(signature)
+
     const reqBody = req.body.toString();
     const body = JSON.parse(reqBody);
-    console.log(body)
 
     const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');    
 
