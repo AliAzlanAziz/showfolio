@@ -5,6 +5,7 @@ import { SubscriptionModel } from '../models/subscription.model';
 import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
 import { getCurrentUTCTime } from '../helper/utils';
+import { SubscriptionReasonType } from '../enums/subscriptionReason.enum';
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -23,14 +24,13 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100,
-      currency: "usd",
+      currency: 'usd',
       metadata: {
         userId: context.user._id.toString(),
         subscriptionType: subscription.subsType.toString(),
         time: getCurrentUTCTime().toUTCString(),
-        amount: `${amount * 100} $`
-      },
-      automatic_payment_methods: { enabled: true }
+        reason: SubscriptionReasonType.FULL_ACCESS_SUBSCRIPTION,
+      }
     });
 
     return res.status(200).send({

@@ -1,6 +1,7 @@
 import { model, Schema, Types } from 'mongoose';
 import { SubscriptionType } from '../enums/subscriptionType.enum';
 import { getCurrentUTCTime } from '../helper/utils';
+import { SubscriptionReasonType } from '../enums/subscriptionReason.enum';
 
 const subscriptionSchema = new Schema({
     _id: {
@@ -23,6 +24,11 @@ const subscriptionSchema = new Schema({
     amount: {
         type: Number,
         required: true
+    },
+    reason: {
+        type: String,
+        required: true,
+        enum: [SubscriptionReasonType.FULL_ACCESS_SUBSCRIPTION]
     }
 })
 

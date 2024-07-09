@@ -4,6 +4,7 @@ import Subscription from '../schema/subscription';
 import { Types } from 'mongoose';
 import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
+import User from '../schema/user';
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -12,18 +13,16 @@ const stripe = new Stripe(process.env.STRIPE_WEBHOOK_SECRET_KEY || '')
 const Webhook = async (req: Request, res: Response) => {
   try{
     const signature = req.headers['stripe-signature'] as string;
-    const event = stripe.webhooks.constructEvent(req.body.toString(), signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
+    const reqBody = req.body.toString();
+    
+    const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
+    const body = JSON.parse(reqBody);
 
     switch (event.type) {
       case 'payment_intent.succeeded':
-        console.log('here in payment_intent.succeeded')
-        const paymentIntentSuccess = event.data.object;
-        console.log(paymentIntentSuccess)
+        await handlePaymentIntentSuccess(body.data.object.metadata, body.data.object.amount)
         break;
       case 'payment_intent.payment_failed':
-        console.log('here in payment_intent.payment_failed')
-        const paymentIntentFailed = event.data.object;
-        console.log(paymentIntentFailed)
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
@@ -41,17 +40,24 @@ const Webhook = async (req: Request, res: Response) => {
   }
 }
 
-const handlePaymentIntentSuccess = async (context: ContextModel, paymentInfo: any) => {
-// const handlePaymentIntentSuccess = async (context: ContextModel, paymentInfo: {userId: string, subscriptionType: number, time: string}) => {
-  const newSubscription = new Subscription({
-    _id: new Types.ObjectId(),
-    user: paymentInfo.userId,
-    type: paymentInfo.subscriptionType,
-    time: paymentInfo.time,
-    amount: paymentInfo.amount
-  })
+const handlePaymentIntentSuccess = async (metadata: any, amount: number) => {
+  try{
+    const newSubscription = new Subscription({
+      _id: new Types.ObjectId(),
+      user: metadata.userId,
+      type: metadata.subscriptionType,
+      time: metadata.time,
+      amount: amount,
+      reason: metadata.reason
+    })
 
-  await newSubscription.save();
+    await newSubscription.save();
+
+    await User.findByIdAndUpdate(metadata.userId, {subsType: metadata.subscriptionType});
+  } catch(error) {
+    console.log(error)
+  }
+
 }
 
 export default {

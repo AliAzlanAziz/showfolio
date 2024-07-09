@@ -140,7 +140,7 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
     }
 
     let code: string = gen(6);
-    while(code == "000000"){
+    while(code == CONSTANTS.SIX_ZERO_DIGITS){
       code = gen(6);  
     }
     const token: string = gen(12);
@@ -197,7 +197,7 @@ const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: 
       });
     }
 
-    userExist.code = "000000";
+    userExist.code = CONSTANTS.SIX_ZERO_DIGITS;
     userExist.validTill = getCurrentUTCTime();
 
     await userExist.save();
@@ -217,7 +217,7 @@ const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: 
 
 const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
   try {
-    const userExist = await User.findOne({ token: user.token, code: "000000" });
+    const userExist = await User.findOne({ token: user.token, code: CONSTANTS.SIX_ZERO_DIGITS });
 
     if (!userExist) {
       return res.status(400).json({
