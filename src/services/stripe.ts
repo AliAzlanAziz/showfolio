@@ -14,10 +14,10 @@ const Webhook = async (req: Request, res: Response) => {
   try{
     const signature = req.headers['stripe-signature'] as string;
     const reqBody = req.body.toString();
-    
-    const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
     const body = JSON.parse(reqBody);
     console.log(body)
+
+    const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');    
 
     switch (event.type) {
       case 'payment_intent.succeeded':
