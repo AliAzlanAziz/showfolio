@@ -29,7 +29,7 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
         userId: context.user._id.toString(),
         subscriptionType: subscription.subsType.toString(),
         time: getCurrentUTCTime().toUTCString(),
-        reason: SubscriptionReasonType.FULL_ACCESS_SUBSCRIPTION,
+        reason: SubscriptionReasonType.FULL_ACCESS_SUBSCRIPTION.toString(),
       }
     });
 

@@ -17,9 +17,11 @@ const Webhook = async (req: Request, res: Response) => {
     
     const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');
     const body = JSON.parse(reqBody);
+    console.log(body)
 
     switch (event.type) {
       case 'payment_intent.succeeded':
+        console.log('payment_intent.succeeded')
         await handlePaymentIntentSuccess(body.data.object.metadata, body.data.object.amount)
         break;
       case 'payment_intent.payment_failed':

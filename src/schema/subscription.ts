@@ -26,7 +26,7 @@ const subscriptionSchema = new Schema({
         required: true
     },
     reason: {
-        type: String,
+        type: Number,
         required: true,
         enum: [SubscriptionReasonType.FULL_ACCESS_SUBSCRIPTION]
     }
