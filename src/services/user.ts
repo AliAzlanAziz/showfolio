@@ -500,8 +500,8 @@ const SearchProfiles = async (query: any, res: Response) => {
     })
     .sort({ points: 'desc' })
     .select({_id: 1, name: 1, imageURL: 1, public: 1, subsType: 1, position: 1, address: 1, toWork: 1, toHire: 1})
-    .limit(limit)
-    .skip(page * limit)
+    .limit(Number(limit))
+    .skip(Number(page * limit))
 
     return res.status(200).json({
       success: true,
