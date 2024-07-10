@@ -32,9 +32,9 @@ router.post('/verify-reset-password-code', userResetPasswordCodeValidator, userC
 
 router.post('/reset-password', userResetPasswordValidator, userController.postResetPassword);
 
-router.get('/:id', isAuthenticated, userController.getUserProfile);
-
 router.get('/search', isAuthenticated, userController.getSearchProfiles);
+
+router.get('/:id', isAuthenticated, userController.getUserProfile);
 
 router.delete('/delete', isAuthenticated, userController.deleteAccount);
 
