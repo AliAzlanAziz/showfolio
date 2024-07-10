@@ -482,7 +482,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
 
 const SearchProfiles = async (query: any, res: Response) => {
   try {
-    const {queryStr, city, country} = query
+    const {queryStr, city, country, limit, page} = query
 
     const queryStrReg = new RegExp(queryStr, 'i');
     const cityReg = new RegExp(city, 'i');
@@ -500,6 +500,8 @@ const SearchProfiles = async (query: any, res: Response) => {
     })
     .sort({ points: 'desc' })
     .select({_id: 1, name: 1, imageURL: 1, public: 1, subsType: 1, position: 1, address: 1, toWork: 1, toHire: 1})
+    .limit(limit)
+    .skip(page * limit)
 
     return res.status(200).json({
       success: true,
@@ -511,7 +513,6 @@ const SearchProfiles = async (query: any, res: Response) => {
       message: 'Internal Server Error!',
     });
   }
-
 }
 
 const DeleteAccount = async (context: ContextModel, res: Response) => {
