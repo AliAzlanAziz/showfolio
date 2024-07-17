@@ -407,7 +407,6 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
     const certPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.CERTIFICATE)
     const projPromise = projectService.GetUserProjects(id)
     const awardPromise = awardService.GetUserAwards(id)
-    profile = {...profile, requested: lastViewRequested}
 
     const [edu, exp, cert, proj, award] = await Promise.all([eduPromise, expPromise, certPromise, projPromise, awardPromise])
 
@@ -418,7 +417,8 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
       experiences: exp,
       certificates: cert,
       projects: proj,
-      awards: award
+      awards: award,
+      requested: lastViewRequested
     });
 
   } catch (error) {
