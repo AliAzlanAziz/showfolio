@@ -8,7 +8,7 @@ import { getCurrentUTCTime } from '../helper/utils';
 
 const CreateView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    if(view.to == context.user._id){
+    if(view.to == context.user._id.toString()){
       return res.status(400).json({
         success: false,
         message: 'Cannot create your own view!'
