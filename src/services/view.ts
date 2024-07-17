@@ -155,40 +155,6 @@ const AllUserViewers = async (context: ContextModel, res: Response) => {
   }
 };
 
-const GetView = async (id: string, context: ContextModel, res: Response) => {
-  try {
-    const view = await View.findOne({user: context.user._id, to: id}).sort({time: 'desc'});
-
-    return res.status(200).json({
-      success: true,
-      data: view,
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Internal Server Error!',
-    });
-  }
-};
-
-const GetViews = async (type: any, context: ContextModel, res: Response) => {
-  try {
-    const awards = await View.find({user: context.user._id}).sort({ year: 'asc' });
-
-    return res.status(200).json({
-      success: true,
-      data: awards,
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Internal Server Error!',
-    });
-  }
-};
-
 const GetLastViewOfUserId = async (id: string, context: ContextModel) => {
   return View.findOne({to: id, user: context.user._id}).sort({time: 'desc'});
 };
@@ -202,8 +168,6 @@ export default {
   CreateRequestInView,
   UserViewsCount,
   AllUserViewers,
-  GetView,
-  GetViews,
   GetLastViewOfUserId,
   DeleteUserAllViews
 }

@@ -382,12 +382,14 @@ const GetSelfProfile = async (context: ContextModel, res: Response) => {
 const GetUserProfile = async (id: string, context: ContextModel, res: Response) => {
   try {
     const lastView = await viewService.GetLastViewOfUserId(id, context);
+    let lastViewRequested = false;
 
     const hideFields = {password: 0, code: 0, validTill: 0, paidDate: 0};
     let profile = null;
 
     if((lastView && lastView.requested) || id == context.user._id){
       profile = await User.findById(id).select(hideFields);  
+      lastViewRequested = true
     }else{
       profile = await User.findById(id)
                           .select({_id: 1, name: 1, username: 1, position: 1, desc: 1, languages: 1, toWork: 1, toHire: 1, public: 1, subsType: 1});    
@@ -405,6 +407,7 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
     const certPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.CERTIFICATE)
     const projPromise = projectService.GetUserProjects(id)
     const awardPromise = awardService.GetUserAwards(id)
+    profile = {...profile, requested: lastViewRequested}
 
     const [edu, exp, cert, proj, award] = await Promise.all([eduPromise, expPromise, certPromise, projPromise, awardPromise])
 
