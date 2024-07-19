@@ -1,6 +1,6 @@
 # showfolio
 
-## to: anyone who is reading especially @farza and the buildspace team
+### to: anyone who is reading especially @farza and the buildspace team
 building this project for the buildspace sage s5 nights and weekends
 
 <br>
