@@ -46,4 +46,10 @@ _the user profile analyzer i built:_ [_link to user profile analyzer aka node-ll
 
 <br>
 
+### week#04 get people's feedback
+
+_feedback post at linkedin_: [_link to post_](https://www.linkedin.com/feed/update/urn:li:ugcPost:7218240227230793728/)
+<br>
+<br>
+
 ###### ~ ali azlan aziz - erevald
