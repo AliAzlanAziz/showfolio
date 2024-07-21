@@ -392,7 +392,7 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
       lastViewRequested = true
     }else{
       profile = await User.findById(id)
-                          .select({_id: 1, name: 1, username: 1, position: 1, desc: 1, languages: 1, toWork: 1, toHire: 1, public: 1, subsType: 1});    
+                          .select({_id: 1, name: 1, username: 1, position: 1, desc: 1, languages: 1, toWork: 1, toHire: 1, public: 1, subsType: 1, imageURL: 1});    
     }
 
     if((profile == null || profile == undefined || !profile.public) && id != context.user._id){
