@@ -29,8 +29,12 @@ const getSelfProfile = (req: Request, res: Response) => {
   return userService.GetSelfProfile(req.context, res)
 }
 
-const getUserProfile = (req: Request, res: Response) => {
-  return userService.GetUserProfile(req.params.id, req.context, res)
+const getUserProfileById = (req: Request, res: Response) => {
+  return userService.GetUserProfileById(req.params.id, req.context, res)
+}
+
+const getUserProfileByUsername = (req: Request, res: Response) => {
+  return userService.GetUserProfileByUsername(req.params.username, res)
 }
 
 const putProfile = (req: Request, res: Response) => {
@@ -64,7 +68,8 @@ export default {
   putProfile,
   putUserPassword,
   putProfilePublicToggle,
-  getUserProfile,
+  getUserProfileById,
+  getUserProfileByUsername,
   getSearchProfiles,
   deleteAccount
 }

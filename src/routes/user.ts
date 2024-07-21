@@ -9,6 +9,7 @@ import { userResetPasswordValidator } from '../validators/userResetPassword.vali
 import { userUpdatePasswordValidator } from '../validators/userUpdatePassword.validator';
 import { mongooseObjectIdValidator } from '../validators/mongooseObjectId.validator';
 import { userResetPasswordCodeValidator } from '../validators/userResetPasswordCode.validator';
+import { isAuthTokenValid } from '../middlewares/isAuthTokenValid';
 
 const router: Router = express.Router();
 
@@ -34,8 +35,11 @@ router.post('/reset-password', userResetPasswordValidator, userController.postRe
 
 router.get('/search', isAuthenticated, userController.getSearchProfiles);
 
-router.get('/:id', isAuthenticated, userController.getUserProfile);
+router.get('/:id', isAuthenticated, userController.getUserProfileById);
 
 router.delete('/delete', isAuthenticated, userController.deleteAccount);
+
+// react site
+router.get('/username/:username', isAuthTokenValid, userController.getUserProfileByUsername);
 
 export default router;

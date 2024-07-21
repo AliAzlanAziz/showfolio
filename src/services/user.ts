@@ -379,7 +379,7 @@ const GetSelfProfile = async (context: ContextModel, res: Response) => {
   }
 };
 
-const GetUserProfile = async (id: string, context: ContextModel, res: Response) => {
+const GetUserProfileById = async (id: string, context: ContextModel, res: Response) => {
   try {
     const lastView = await viewService.GetLastViewOfUserId(id, context);
     let lastViewRequested = false;
@@ -419,6 +419,45 @@ const GetUserProfile = async (id: string, context: ContextModel, res: Response) 
       projects: proj,
       awards: award,
       requested: lastViewRequested
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error!',
+    });
+  }
+};
+
+const GetUserProfileByUsername = async (username: string, res: Response) => {
+  try {
+    const hideFields = {password: 0, code: 0, validTill: 0, paidDate: 0};
+    let profile = await User.findOne({username: username}).select(hideFields);  
+   
+    if(profile == null || profile == undefined || !profile.public){
+      return res.status(400).json({
+        success: false,
+        message: 'Either profile does not exist or is not-published!'
+      })
+    }
+
+    const id = profile?._id?.toString() || ''
+    const eduPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.EDUCATION)
+    const expPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.EXPERIENCE)
+    const certPromise = workInfoService.GetUserWorkInfos(id, WorkInfoType.CERTIFICATE)
+    const projPromise = projectService.GetUserProjects(id)
+    const awardPromise = awardService.GetUserAwards(id)
+
+    const [edu, exp, cert, proj, award] = await Promise.all([eduPromise, expPromise, certPromise, projPromise, awardPromise])
+
+    return res.status(200).json({
+      success: true,
+      profile: profile,
+      educations: edu,
+      experiences: exp,
+      certificates: cert,
+      projects: proj,
+      awards: award
     });
 
   } catch (error) {
@@ -552,7 +591,8 @@ export default {
   GetSelfProfile,
   UpdateProfile,
   UpdateUserPassword,
-  GetUserProfile,
+  GetUserProfileById,
+  GetUserProfileByUsername,
   ProfilePublicToggle,
   SearchProfiles,
   DeleteAccount
