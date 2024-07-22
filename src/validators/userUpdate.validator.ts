@@ -27,7 +27,7 @@ const userUpdateSchema = Joi.object({
         Joi.object({
             _id: Joi.string().optional(), 
             name: Joi.string().trim().min(1).max(128).required(),
-            skillLevel: Joi.number().valid(1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5).required()
+            skillLevel: Joi.string().valid(1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5).required()
         })
     ).optional(),
     toWork: Joi.boolean().optional(),
