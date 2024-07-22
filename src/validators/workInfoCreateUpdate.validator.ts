@@ -5,6 +5,7 @@ import { WorkInfoType } from '../enums/workInfoType.enum';
 import { JobModeType } from '../enums/jobModeType.enum';
 
 const workInfoCreateUpdateSchema = Joi.object({
+    id: Joi.string().optional(),
     title: Joi.string().trim().min(1).max(256).required(),
     desc: Joi.string().trim().min(1).max(512).required(),
     from: Joi.string().trim().isoDate().optional(),

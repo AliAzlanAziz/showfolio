@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { isBefore, parseISO } from 'date-fns';
 
 const projectCreateUpdateSchema = Joi.object({
+    id: Joi.string().optional(),
     title: Joi.string().trim().min(1).max(256).required(),
     desc: Joi.string().trim().min(1).max(512).required(),
     contrib: Joi.string().trim().min(1).max(1200).optional(),
