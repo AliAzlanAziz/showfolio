@@ -290,9 +290,9 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       li: user.li,
       web: user.web,
       address: {
-          city: user?.address?.city,
-          country: user?.address?.country,
-          details: user?.address?.details,
+        city: user?.address?.city,
+        country: user?.address?.country,
+        details: user?.address?.details,
       },
       languages: user.languages,
       toWork: user.toWork,
@@ -306,11 +306,10 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       success: true,
       message: 'Successfully updated profile!',
     });
-
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({
       success: false,
-      message: 'Internal Server Error!',
+      message: error?.message || 'Internal Server Error',
     });
   }
 };
