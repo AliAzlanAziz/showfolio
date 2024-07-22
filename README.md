@@ -52,4 +52,11 @@ _feedback post at linkedin_: [_link to post_](https://www.linkedin.com/feed/upda
 <br>
 <br>
 
+### week#05 marketting
+
+- the app is totally complete as per plan, everything i add now will be a new iteration
+- haven't marktetted it this week honestly as i needed to make adjustments, well coming week is last so let's market and polish it to make presentable to others
+
+_mobile app repo (react native)_: [_link to repo_](https://github.com/AliAzlanAziz/showfolioO)
+
 ###### ~ ali azlan aziz - erevald
