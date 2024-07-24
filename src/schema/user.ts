@@ -118,8 +118,8 @@ const userSchema = new Schema({
                 max: 128
             },
             skillLevel: {
-                type: Number,
-                enum: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+                type: String,
+                enum: ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5']
             }
         }
     ],
