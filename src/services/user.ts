@@ -529,10 +529,6 @@ const SearchProfiles = async (query: any, res: Response) => {
     const cityReg = (city && city?.length > 0) ? new RegExp(city, 'i') : queryStrReg;
     const countryReg = (country && country?.length > 0) ? new RegExp(country, 'i') : queryStrReg;
 
-    console.log(queryStrReg)
-    console.log(cityReg)
-    console.log(countryReg)
-
     const users: any = await User.find({
       $or: [
         { name: { $regex: queryStrReg } },
