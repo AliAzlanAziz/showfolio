@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 
 const userSignupSchema = Joi.object({
     name: Joi.string().trim().min(4).max(128).required(),
-    email: Joi.string().trim().email().required(),
-    username: Joi.string().trim().min(4).max(128).required(),
+    email: Joi.string().lowercase().trim().email().required(),
+    username: Joi.string().lowercase().trim().min(4).max(128).required(),
     password: Joi.string().min(8).max(20).required(),
     confirmPassword: Joi.string().required().valid(Joi.ref('password')).messages({
         'any.only': 'Passwords do not match'
