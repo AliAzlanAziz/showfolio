@@ -526,8 +526,12 @@ const SearchProfiles = async (query: any, res: Response) => {
     const {queryStr, city, country, limit, page} = query
 
     const queryStrReg = new RegExp(queryStr, 'i');
-    const cityReg = new RegExp(city, 'i');
-    const countryReg = new RegExp(country, 'i');
+    const cityReg = (city && city?.length > 0) ? new RegExp(city, 'i') : queryStrReg;
+    const countryReg = (country && country?.length > 0) ? new RegExp(country, 'i') : queryStrReg;
+
+    console.log(queryStrReg)
+    console.log(cityReg)
+    console.log(countryReg)
 
     const users: any = await User.find({
       $or: [
@@ -546,6 +550,7 @@ const SearchProfiles = async (query: any, res: Response) => {
 
     return res.status(200).json({
       success: true,
+      length: users.length,
       users: users
     });
   } catch (error) {
