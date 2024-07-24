@@ -510,7 +510,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Profile privacy update!'
+      message: userExist.public ? 'Profile is public!' : 'Profile is private!'  
     });
 
   } catch (error) {
