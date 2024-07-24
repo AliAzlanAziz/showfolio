@@ -5,8 +5,8 @@ const awardCreateUpdateSchema = Joi.object({
     id: Joi.string().optional(),
     title: Joi.string().trim().min(1).max(256).required(),
     desc: Joi.string().trim().min(1).max(512).required(),
-    year: Joi.number().min(1800).max(9999).optional(),
-    uploadingImage: Joi.boolean().optional(),
+    year: Joi.number().min(1800).max(9999).optional().allow(null, ''),
+    uploadingImage: Joi.boolean().optional().allow(null),
     base64Image: Joi.string().when('uploadingImage', {
         is: true,
         then: Joi.string().required(),

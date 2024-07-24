@@ -288,7 +288,7 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       gh: user.gh,
       tw: user.tw,
       li: user.li,
-      web: user.web,
+      web: `www.showfolio.co/portfolio?username=${'username'}`, //update username
       address: {
         city: user?.address?.city,
         country: user?.address?.country,
