@@ -27,7 +27,9 @@ const projectCreateUpdateSchema = Joi.object({
 });
 
 export const projectCreateUpdateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = projectCreateUpdateSchema.validate(req.body.project, { abortEarly: false });
+    const { error, value } = projectCreateUpdateSchema.validate(req.body.project, { abortEarly: true });
+
+    req.body.project = value
 
     if (error) {
         return res.status(400).json({

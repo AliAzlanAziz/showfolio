@@ -7,7 +7,9 @@ const subsPayIntentCreateSchema = Joi.object({
 })
 
 export const subsPayIntentCreateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = subsPayIntentCreateSchema.validate(req.body.subscription, { abortEarly: false });
+    const { error, value } = subsPayIntentCreateSchema.validate(req.body.subscription, { abortEarly: true });
+
+    req.body.subscription = value
 
     if (error) {
         return res.status(400).json({

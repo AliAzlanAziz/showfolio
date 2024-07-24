@@ -7,7 +7,9 @@ const userResetPasswordCodeSchema = Joi.object({
 });
 
 export const userResetPasswordCodeValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = userResetPasswordCodeSchema.validate(req.body.user, { abortEarly: false });
+    const { error, value } = userResetPasswordCodeSchema.validate(req.body.user, { abortEarly: true });
+
+    req.body.user = value
 
     if (error) {
         return res.status(400).json({

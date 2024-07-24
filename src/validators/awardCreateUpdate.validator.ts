@@ -15,7 +15,9 @@ const awardCreateUpdateSchema = Joi.object({
 });
 
 export const awardCreateUpdateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = awardCreateUpdateSchema.validate(req.body.award, { abortEarly: false });
+    const { error, value } = awardCreateUpdateSchema.validate(req.body.award, { abortEarly: true });
+    
+    req.body.award = value
 
     if (error) {
         return res.status(400).json({

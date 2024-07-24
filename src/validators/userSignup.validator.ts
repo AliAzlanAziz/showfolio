@@ -18,7 +18,9 @@ const userSignupSchema = Joi.object({
 });
 
 export const userSignupValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = userSignupSchema.validate(req.body.user, { abortEarly: false });
+    const { error, value } = userSignupSchema.validate(req.body.user, { abortEarly: true });
+    
+    req.body.user = value
 
     if (error) {
         return res.status(400).json({

@@ -36,7 +36,9 @@ const workInfoCreateUpdateSchema = Joi.object({
 });
 
 export const workInfoCreateUpdateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = workInfoCreateUpdateSchema.validate(req.body.workInfo, { abortEarly: false });
+    const { error, value } = workInfoCreateUpdateSchema.validate(req.body.workInfo, { abortEarly: true });
+
+    req.body.workInfo = value
 
     if (error) {
         return res.status(400).json({

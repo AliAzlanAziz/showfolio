@@ -6,7 +6,9 @@ const userForgetPasswordSchema = Joi.object({
 })
 
 export const userForgetPasswordValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = userForgetPasswordSchema.validate(req.body.user, { abortEarly: false });
+    const { error, value } = userForgetPasswordSchema.validate(req.body.user, { abortEarly: true });
+
+    req.body.user = value
 
     if (error) {
         return res.status(400).json({

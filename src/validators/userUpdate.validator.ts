@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 const userUpdateSchema = Joi.object({
     position: Joi.string().trim().min(3).max(128).optional(),
     phone: Joi.string().trim().regex(/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/).min(9).max(128).optional(),
-    desc: Joi.string().trim().min(1).max(512).optional(),
+    desc: Joi.string().trim().max(512).optional(),
     fb: Joi.string().trim().max(256).optional(),
     ig: Joi.string().trim().max(256).optional(),
     yt: Joi.string().trim().max(256).optional(),
@@ -38,7 +38,9 @@ const userUpdateSchema = Joi.object({
 });
 
 export const userUpdateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = userUpdateSchema.validate(req.body.user, { abortEarly: false });
+    const { error, value } = userUpdateSchema.validate(req.body.user, { abortEarly: true });
+
+    req.body.user = value
 
     if (error) {
         return res.status(400).json({

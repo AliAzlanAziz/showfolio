@@ -10,7 +10,9 @@ const userUpdatePasswordSchema = Joi.object({
 });
 
 export const userUpdatePasswordValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = userUpdatePasswordSchema.validate(req.body.user, { abortEarly: false });
+    const { error, value } = userUpdatePasswordSchema.validate(req.body.user, { abortEarly: true });
+
+    req.body.user = value
 
     if (error) {
         return res.status(400).json({

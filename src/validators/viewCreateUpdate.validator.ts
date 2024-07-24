@@ -14,7 +14,9 @@ const viewCreateUpdateSchema = Joi.object({
 });
 
 export const viewCreateUpdateValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = viewCreateUpdateSchema.validate(req.body.view, { abortEarly: false });
+    const { error, value } = viewCreateUpdateSchema.validate(req.body.view, { abortEarly: true });
+
+    req.body.view = value
 
     if (error) {
         return res.status(400).json({

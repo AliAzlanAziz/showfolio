@@ -14,7 +14,7 @@ const mongooseObjectIdSchema = Joi.object({
 });
 
 export const mongooseObjectIdValidator = (req: Request, res: Response, next: NextFunction) => {
-    const { error } = mongooseObjectIdSchema.validate(req.params, { abortEarly: false });
+    const { error } = mongooseObjectIdSchema.validate(req.params, { abortEarly: true });
 
     if (error) {
         return res.status(400).json({
