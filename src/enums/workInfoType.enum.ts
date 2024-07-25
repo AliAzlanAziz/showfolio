@@ -14,4 +14,4 @@ export const isExperience = (type: WorkInfoType): boolean => {
 
 export const isCertificate = (type: WorkInfoType): boolean => {
     return type === WorkInfoType.CERTIFICATE
-}
+} 
