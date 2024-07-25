@@ -7,11 +7,7 @@ const awardCreateUpdateSchema = Joi.object({
     desc: Joi.string().trim().min(1).max(512).required(),
     year: Joi.number().min(1800).max(9999).optional().allow(null, ''),
     uploadingImage: Joi.boolean().optional().allow(null),
-    base64Image: Joi.string().when('uploadingImage', {
-        is: true,
-        then: Joi.string().required(),
-        otherwise: Joi.optional()
-    })
+    base64Image: Joi.string().optional().allow(null, ''),
 });
 
 export const awardCreateUpdateValidator = (req: Request, res: Response, next: NextFunction) => {

@@ -11,11 +11,7 @@ const workInfoCreateUpdateSchema = Joi.object({
     from: Joi.string().trim().isoDate().optional().allow(null, ''),
     to: Joi.string().trim().isoDate().optional().allow(null, ''),
     uploadingImage: Joi.boolean().optional().allow(null, ''),
-    base64Image: Joi.string().when('uploadingImage', {
-        is: true,
-        then: Joi.string().required(),
-        otherwise: Joi.optional(),
-    }),
+    base64Image: Joi.string().optional().allow(null, ''),
     address: Joi.object({
         city: Joi.string().trim().min(1).max(128).optional().allow(null, ''),
         country: Joi.string().trim().min(1).max(128).optional().allow(null, ''),
