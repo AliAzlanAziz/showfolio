@@ -15,7 +15,7 @@ export const generateProject = (user: any) => {
     contrib: projs[randomNumber].contrib,
     from: from,
     to: to,
-    imageUrl: faker.image.url({width: 500, height: 500}) 
+    imageURL: faker.image.url({width: 500, height: 500}) 
   }
 }
 

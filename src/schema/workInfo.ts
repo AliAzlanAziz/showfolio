@@ -60,7 +60,7 @@ const workInfoSchema = new Schema({
             max: 256
         },
     },
-    imageUrl: {
+    imageURL: {
         type: String
     }
 })

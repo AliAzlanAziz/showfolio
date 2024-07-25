@@ -23,7 +23,8 @@ export const insertDummyData = async () => {
     let projects = [];
     let awards = [];
     for(let i=0; i<users.length; i++){
-    const randomNumber = getRandomNumber(1, 2);
+    const randomNumber = 1;
+    // const randomNumber = getRandomNumber(1, 2);
 
       for(let j=1; j<=randomNumber; j++){
         workInfos.push(generateEducation(users[i]._id.toString()))
@@ -39,7 +40,7 @@ export const insertDummyData = async () => {
 
     let views = [];
     for(let i=0; i<users.length; i++){
-    const randomNumber = getRandomNumber(2, 6);
+    const randomNumber = getRandomNumber(2, 4);
 
       for(let j=1; j<=randomNumber; j++){
         const toUser = getRandomNumber(0, users.length-1)

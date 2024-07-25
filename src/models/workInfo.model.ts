@@ -16,7 +16,7 @@ export class WorkInfoModel {
         country: string
         details: string
     };
-    imageUrl: string;
+    imageURL: string;
     uploadingImage: boolean;
     base64Image: string;
 }

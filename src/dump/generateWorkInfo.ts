@@ -28,7 +28,7 @@ export const generateExperience = (user: any) => {
       country: faker.location.country(),
       details: faker.lorem.lines(1)
     },
-    imageUrl: faker.image.url({width: 500, height: 500}) 
+    imageURL: faker.image.url({width: 500, height: 500}) 
   }
 }
 
@@ -52,7 +52,7 @@ export const generateEducation = (user: any) => {
       country: faker.location.country(),
       details: faker.lorem.lines(1)
     },
-    imageUrl: faker.image.url({width: 500, height: 500}) 
+    imageURL: faker.image.url({width: 500, height: 500}) 
   }
 }
 
@@ -76,7 +76,7 @@ export const generateCertificate = (user: any) => {
       country: faker.location.country(),
       details: faker.lorem.lines(1)
     },
-    imageUrl: faker.image.url({width: 500, height: 500}) 
+    imageURL: faker.image.url({width: 500, height: 500}) 
   }
 }
 
