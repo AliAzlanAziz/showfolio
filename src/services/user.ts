@@ -65,7 +65,8 @@ const Signup = async (user: UserSignupModel, res: Response) => {
       name: user.name,
       email: user.email,
       password: hash,
-      username: user.username
+      username: user.username,
+      web: `www.showfolio.co/portfolio?username=${user.username}`
     });
 
     await newUser.save();
@@ -296,7 +297,6 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
     userExist.gh = user.gh;
     userExist.tw = user.tw;
     userExist.li = user.li;
-    userExist.web = `www.showfolio.co/portfolio?username=${userExist.username}`; //update username
     userExist.address = {
       city: user?.address?.city,
       country: user?.address?.country,
