@@ -35,11 +35,11 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
       to: workInfo.to,
       desc: workInfo.desc,
       address: {
-          city: workInfo.address.city,
-          country: workInfo.address.country,
-          details: workInfo.address.details
+        city: workInfo.address.city,
+        country: workInfo.address.country,
+        details: workInfo.address.details
       },
-      imageURL: imageURL
+      imageURL: imageURL ? imageURL : ''
     })
 
     if(workInfo.type == WorkInfoType.EXPERIENCE){

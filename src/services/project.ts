@@ -32,7 +32,7 @@ const CreateProject = async (project: ProjectModel, context: ContextModel, res: 
       contrib: project.contrib,
       from: project.from,
       to: project.to,
-      imageURL: imageURL
+      imageURL: imageURL ? imageURL : ''
     })
 
     await newProject.save();

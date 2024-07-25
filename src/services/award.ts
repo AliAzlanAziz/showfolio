@@ -22,7 +22,7 @@ const CreateAward = async (award: AwardModel, context: ContextModel, res: Respon
       title: award.title,
       desc: award.desc,
       year: award.year,
-      imageURL: imageURL
+      imageURL: imageURL ? imageURL : ''
     })
 
     await newAward.save();
