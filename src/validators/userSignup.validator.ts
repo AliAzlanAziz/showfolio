@@ -11,7 +11,7 @@ const userSignupSchema = Joi.object({
     })
 }).custom((obj, helpers) => {
     const username: String = obj.username
-    if (username && (username.indexOf(' ') != -1)) {
+    if (username && username.includes(' ')) {
         return helpers.message({ custom: 'username must not contain any whitespaces' });
     }
     return obj;
