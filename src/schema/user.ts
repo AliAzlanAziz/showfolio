@@ -112,6 +112,10 @@ const userSchema = new Schema({
     },
     languages: [
         {
+            _id: {
+                type: Types.ObjectId,
+                default: new Types.ObjectId(),
+            },
             name: {
                 type: String,
                 min: 1,

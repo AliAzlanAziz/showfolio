@@ -20,12 +20,7 @@ export class UserModel {
         country: string;
         details: string;
     };
-    languages: [
-        {
-            name: string;
-            skillLevel: string;
-        }
-    ];
+    languages: any;
     toWork: boolean;
     toHire: boolean;
     public: boolean;
@@ -35,5 +30,5 @@ export class UserModel {
     // tags: string;
     // points: string;
     // validTill: Date;
-    gender: string;
+    gender: any;
 }

@@ -277,30 +277,37 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       imageURL = await uploadBase64Image(user.base64Image, CONSTANTS.PROFILE_IMAGE_FOLDER, context.user._id)
     }
 
-    let updatedProfile: any = {
-      position: user.position,
-      phone: user.phone,
-      imageURL: (user?.uploadingImage == true) ? imageURL : context.user.imageURL,
-      desc: user.desc,
-      fb: user.fb,
-      ig: user.ig,
-      yt: user.yt,
-      gh: user.gh,
-      tw: user.tw,
-      li: user.li,
-      web: `www.showfolio.co/portfolio?username=${'username'}`, //update username
-      address: {
-        city: user?.address?.city,
-        country: user?.address?.country,
-        details: user?.address?.details,
-      },
-      languages: user.languages,
-      toWork: user.toWork,
-      toHire: user.toHire,
-      gender: user.gender
+    const userExist = await User.findById(context.user._id)
+
+    if (!userExist) {
+      return res.status(404).json({
+        success: false,
+        message: 'User does not exist!',
+      });
     }
+
+    userExist.position = user.position;
+    userExist.phone = user.phone;
+    userExist.imageURL = (user?.uploadingImage == true) ? imageURL : context.user.imageURL;
+    userExist.desc = user.desc;
+    userExist.fb = user.fb;
+    userExist.ig = user.ig;
+    userExist.yt = user.yt;
+    userExist.gh = user.gh;
+    userExist.tw = user.tw;
+    userExist.li = user.li;
+    userExist.web = `www.showfolio.co/portfolio?username=${userExist.username}`; //update username
+    userExist.address = {
+      city: user?.address?.city,
+      country: user?.address?.country,
+      details: user?.address?.details
+    };
+    userExist.languages = user.languages;
+    userExist.toWork = user.toWork;
+    userExist.toHire = user.toHire;
+    userExist.gender = user.gender
     
-    await User.findByIdAndUpdate(context.user._id, updatedProfile)
+    await userExist.save();
 
     return res.status(200).json({
       success: true,
