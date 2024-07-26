@@ -42,7 +42,7 @@ _first preview of the showfolio app_: [_Link to first preview screenshots {linke
 _if anyone wants to play with the first preview aka Showfolio app_: [_Link to showfolio app (first preview) apk file_](https://drive.google.com/file/d/1IOX93k_xEZxf2_HdbFkA3ZmO1D9s1S1o/view?usp=drive_link)
 <br>
 
-_the user profile analyzer i built:_ [_link to user profile analyzer aka node-llama-cpp-project_](https://github.com/AliAzlanAziz/node-llama-cpp-project)
+_the user profile analyzer i built:_ [_link to user profile analyzer aka node-llama-cpp-project github repo_](https://github.com/AliAzlanAziz/node-llama-cpp-project)
 
 <br>
 
@@ -57,12 +57,14 @@ _feedback post at linkedin_: [_link to post_](https://www.linkedin.com/feed/upda
 - the app is totally complete as per plan, everything i add now will be a new iteration
 - haven't marktetted it this week honestly as i needed to make adjustments, well coming week is last so let's market and polish it to make presentable to others
 
-_mobile app repo (react native)_: [_link to repo_](https://github.com/AliAzlanAziz/showfolioO)
+_mobile app repo (react native)_: [_link to github repo_](https://github.com/AliAzlanAziz/showfolioO)
 
 ### week#06 Demo Week
 
 - I developed one more iteration basically the web part of it: [_link to github repo_](https://github.com/AliAzlanAziz/showfolio-web-app) _or just visit_ [_showfolio.io_](https://showfolio.io/)
-## DEMO 
-### Try it yourself (download the app) [showfolio.io](https://showfolio.io/)
+
+### ^^demo
+  ### try it yourself (download the app) [download from google play store](https://play.google.com/store/apps/details?id=com.showfolio&pcampaignid=web_share)
+  ### visit official site: [showfolio.io](https://showfolio.io/)
 
 ###### ~ ali azlan aziz - erevald
