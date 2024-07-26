@@ -14,7 +14,7 @@ export const insertDummyData = async () => {
   try{
     // generate 100 users
     const users = faker.helpers.multiple(generateUser, {
-      count: 100,
+      count: 30,
     });
     await User.insertMany(users);
 
@@ -23,8 +23,8 @@ export const insertDummyData = async () => {
     let projects = [];
     let awards = [];
     for(let i=0; i<users.length; i++){
-    const randomNumber = 1;
-    // const randomNumber = getRandomNumber(1, 2);
+    // const randomNumber = 2;
+      const randomNumber = getRandomNumber(1, 2);
 
       for(let j=1; j<=randomNumber; j++){
         workInfos.push(generateEducation(users[i]._id.toString()))
@@ -40,7 +40,7 @@ export const insertDummyData = async () => {
 
     let views = [];
     for(let i=0; i<users.length; i++){
-    const randomNumber = getRandomNumber(2, 4);
+    const randomNumber = getRandomNumber(4, 6);
 
       for(let j=1; j<=randomNumber; j++){
         const toUser = getRandomNumber(0, users.length-1)

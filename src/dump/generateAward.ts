@@ -12,6 +12,7 @@ export const generateAward = (user: any) => {
     user: user,
     title: awards[randomNumber].title,
     desc: awards[randomNumber].desc,
+    year: 2002,
     from: from,
     to: to,
     imageURL: faker.image.url({width: 500, height: 500}) 

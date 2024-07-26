@@ -23,7 +23,7 @@ export const generateUser = () => {
     gh: `https://www.github.com/${username}`,
     tw: `https://www.twitter.com/${username}`,
     li: `https://www.linkedin.com/in/${username}`,
-    web: `https://${username}.com`,
+    web: `https://www.showfolio.io/portfolio/${username}`,
     address: {
       city: faker.location.city(),
       country: faker.location.country(),
