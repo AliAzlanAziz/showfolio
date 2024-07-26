@@ -66,7 +66,7 @@ const Signup = async (user: UserSignupModel, res: Response) => {
       email: user.email,
       password: hash,
       username: user.username,
-      web: `www.showfolio.co/portfolio?username=${user.username}`
+      web: `https://www.showfolio.io/portfolio/${user.username}`
     });
 
     await newUser.save();
