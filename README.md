@@ -59,4 +59,10 @@ _feedback post at linkedin_: [_link to post_](https://www.linkedin.com/feed/upda
 
 _mobile app repo (react native)_: [_link to repo_](https://github.com/AliAzlanAziz/showfolioO)
 
+### week#06 Demo Week
+
+- I developed one more iteration basically the web part of it: [_link to github repo_](https://github.com/AliAzlanAziz/showfolio-web-app) _or just visit_ [_showfolio.io_](https://showfolio.io/)
+## DEMO 
+### Try it yourself (download the app) [showfolio.io](https://showfolio.io/)
+
 ###### ~ ali azlan aziz - erevald
