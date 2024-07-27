@@ -13,6 +13,9 @@ import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
 import { insertDummyData } from './dump/insert';
 import winston from 'winston';
+import fs from 'fs';
+import https from 'https';
+import http from 'http';
 
 // TODO: SETUP WINSTON
 const logger = winston.createLogger({
@@ -45,7 +48,7 @@ app.use((req, res, next)=>{
 })
 app.use(cors());
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
+app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running!'} ))
 
 app.use('/waitList', waitListRoutes)
 app.use('/user', userRoutes)
@@ -55,8 +58,27 @@ app.use('/award', awardRoutes)
 app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
 
-app.listen(process.env.PORT, async () => {
-  console.log(`Server ready at http://localhost:${process.env.PORT}`)
-})
+const privateKey  = fs.readFileSync(`${__dirname}/config/privKey.pem`, 'utf8');
+const certificate = fs.readFileSync(`${__dirname}/config/cert.pem`, 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate
+};
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+const HTTP_PORT = process.env.PORT1 || 8080
+const HTTPS_PORT = process.env.PORT2 || 8081
+
+httpServer.listen(HTTP_PORT, () => {
+  console.log(`Server ready at http://localhost:${HTTP_PORT}`)
+});
+
+httpsServer.listen(HTTPS_PORT, () => {
+  console.log(`Server ready at https://localhost:${HTTPS_PORT}`)
+});
+
 
 export default app;

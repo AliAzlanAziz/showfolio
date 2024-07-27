@@ -3,3 +3,6 @@
 **dist**
 **public**
 .vercel
+*.key
+*.crt
+*.pem
