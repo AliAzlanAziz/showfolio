@@ -4,6 +4,7 @@
 building this project for the buildspace sage s5 nights and weekends
 
 <br>
+note: all the other modules' github repos (soon will this repo be made private) have been made private
 
 ### week#01 idea+description
 one liner: a mobile app to make portfolio 
