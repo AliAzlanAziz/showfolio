@@ -3,3 +3,7 @@
 **dist**
 **public**
 .vercel
+*.pem
+*.key
+*.cert
+*.ca
