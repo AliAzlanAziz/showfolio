@@ -1,4 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
+import { serviceLogger } from './logger';
+
+const logger = serviceLogger('cloudinary.js');
 
 //function to connect to database
 const connectCloudinary = async () => {
@@ -10,8 +13,8 @@ const connectCloudinary = async () => {
             secure: true,
         });
 
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        logger.error(error)
         process.exit(1)
     }
 }

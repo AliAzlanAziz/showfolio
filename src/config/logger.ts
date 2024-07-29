@@ -1,5 +1,5 @@
 import path from 'path';
-import { rimraf } from 'rimraf';
+import { rimraf, rimrafSync } from 'rimraf';
 import winston from 'winston';
 
 const date = new Date().toLocaleDateString().replaceAll('/','_',);
@@ -7,13 +7,20 @@ const time = new Date().toLocaleTimeString().replaceAll(' ','-').replaceAll(':',
 const filename = `${date}_${time}.txt`
 console.log('filename: '+filename)
 
-rimraf(path.join(__dirname, "..", "logs")).then().catch()
+rimrafSync(path.join(__dirname, "..", "logs"))
 
 const mainLogger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
-    winston.format.timestamp(), 
-    winston.format.json()
+    winston.format(info => {
+      info.level = info.level.toUpperCase()
+      return info;
+    })(),
+    winston.format.printf(
+      (log) => {
+        return `${log.level} >> MSG: ${log.message}, FILE: ${log.service}`;
+      }
+    )
   ),
   transports: [
     new (winston.transports.Console)({

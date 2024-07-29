@@ -1,33 +1,36 @@
 import mongoose, { connect } from "mongoose";
+import { serviceLogger } from './logger';
+
+const logger = serviceLogger('db.js');
 
 //function to connect to database
 const connectDB = async () => {
     try{
         const conn = await connect(process.env.MONGO_URI as string)
 
-        console.log(`MongoDB connected at host: ${conn.connection.host}`)
-    } catch(err) {
-        console.log(err)
+        logger.info(`MongoDB connected at host: ${conn.connection.host}`)
+    } catch(error) {
+        logger.error(error)
         process.exit(1)
     }
 }
 
 mongoose.connection.on('connected', () => {
-    console.log('Mongoose connected!');
+    logger.info('Mongoose connected!');
 });
 
 mongoose.connection.on('error', (err) => {
-    console.error('Mongoose connection error: ' + err);
+    logger.error('Mongoose connection error: ' + err);
 });
 
 mongoose.connection.on('disconnected', () => {
-    console.log('Mongoose disconnected!');
+    logger.info('Mongoose disconnected!');
 });
 
 // Function to gracefully close the Mongoose connection
 const gracefulExit = async () => {
     await mongoose.connection.close();
-    console.log('Mongoose connection closed through app termination');
+    logger.info('Mongoose connection closed through app termination');
     process.exit(0);
 };
 

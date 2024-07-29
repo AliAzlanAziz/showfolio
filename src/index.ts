@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB  from './config/db';
@@ -13,17 +13,16 @@ import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
 import { insertDummyData } from './dump/insert';
 import { serviceLogger } from './config/logger';
-
-const logger = serviceLogger('index.js');
-
 dotenv.config({ path: __dirname + '/config/config.env' })
 
 connectDB()//.then(async () => await insertDummyData()); // uncomment code to insert dummyUsers
 connectCloudinary()
 
-const app: Express = express()
+const app = express()
 app.use('/stripe', express.raw({type: 'application/json'}), stripeRoutes)
 app.use(express.json({ limit: '15Mb' }));
+
+const logger = serviceLogger('index.js');
 
 app.use((req, res, next)=>{
   if(process.env.NODE_ENV=='DEV'){
@@ -48,7 +47,7 @@ app.use('/subscription', subscriptionRoutes)
 const PORT = process.env.PORT;
 
 app.listen(PORT, async () => {
-  console.log(`Server ready at http://localhost:${PORT}`)
+  logger.info(`Server ready at http://localhost:${PORT}`)
 })
 
 export default app;
