@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import { isBefore } from 'date-fns';
 import { ContextModel } from '../models/context.model';
 import Project from '../schema/project';
+import projectRepository from '../repo/project';
 import { ProjectModel } from '../models/project.model';
 import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
@@ -46,7 +47,7 @@ const CreateProject = async (project: ProjectModel, context: ContextModel, res: 
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -77,7 +78,7 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
       updatedProject = {...updatedProject, imageURL: imageURL}
     }
     
-    await Project.findByIdAndUpdate(projectBody.id, updatedProject)
+    await projectRepository.findByIdAndUpdate(projectBody.id, updatedProject)
 
     return res.status(200).json({
       success: true,
@@ -85,7 +86,7 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -95,7 +96,7 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
 
 const GetProject = async (id: string, res: Response) => {
   try {
-    const project = await Project.findById(id);
+    const project = await projectRepository.findById(id);
 
     return res.status(200).json({
       success: true,
@@ -103,7 +104,7 @@ const GetProject = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -113,7 +114,7 @@ const GetProject = async (id: string, res: Response) => {
 
 const GetProjects = async (context: ContextModel, res: Response) => {
   try {
-    const projects = await Project.find({user: context.user._id}).sort({ from: 'asc' });
+    const projects = await projectRepository.findByQueryObject({user: context.user._id}).sort({ from: 'asc' });
 
     return res.status(200).json({
       success: true,
@@ -121,7 +122,7 @@ const GetProjects = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -131,7 +132,7 @@ const GetProjects = async (context: ContextModel, res: Response) => {
 
 const DeleteProject = async (id: string, res: Response) => {
   try {
-    await Project.findByIdAndDelete(id);
+    await projectRepository.deleteById(id);
 
     const publicID = `${CONSTANTS.PROJECT_IMAGE_FOLDER}/${id}-${CONSTANTS.PROJECT_IMAGE_FOLDER}`
     
@@ -143,7 +144,7 @@ const DeleteProject = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error removing project!',
@@ -152,15 +153,19 @@ const DeleteProject = async (id: string, res: Response) => {
 };
 
 const GetUserProjects = async (id: string) => {
-  return Project.find({user: id}).sort({ from: 'asc' });
+  return projectRepository.findByQueryObject({user: id}).sort({ from: 'asc' });
 };
 
 const GetUserProjectsCount = async (id: string) => {
-  return Project.find({user: id}).countDocuments();
+  return projectRepository.findByQueryObject({user: id}).countDocuments();
 };
 
 const DeleteUserAllProjects = async (id: string) => {
-  return Project.deleteMany({user: id});
+  return projectRepository.deleteMultipleByQueryObject({user: id});
+};
+
+const findById = async (id: string) => {
+  return projectRepository.findById(id);
 };
 
 export default {
@@ -171,5 +176,6 @@ export default {
   DeleteProject,
   GetUserProjects,
   GetUserProjectsCount,
-  DeleteUserAllProjects
+  DeleteUserAllProjects,
+  findById
 }

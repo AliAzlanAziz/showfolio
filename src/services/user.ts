@@ -18,6 +18,7 @@ import workInfoService from './workInfo'
 import projectService from './project'
 import awardService from './award'
 import viewService from './view'
+import userRepository from '../repo/user'
 import { WorkInfoType } from '../enums/workInfoType.enum';
 import { serviceLogger } from '../config/logger';
 
@@ -42,22 +43,12 @@ const CheckReachable = async (res: Response) => {
 
 const Signup = async (user: UserSignupModel, res: Response) => {
   try {
-    const userExist = await User.findOne().or([
-      { email: user.email },
-      { username: user.username },
-    ]);
+    const userExist = await userRepository.findByUsernameOrEmail(user.username, user.email);
 
     if (userExist) {
       return res.status(409).json({
         success: false,
         message: 'User already exist!',
-      });
-    }
-
-    if (user.password != user.confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password does not match with confirm password!',
       });
     }
 
@@ -80,7 +71,7 @@ const Signup = async (user: UserSignupModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error signing up!',
@@ -90,10 +81,7 @@ const Signup = async (user: UserSignupModel, res: Response) => {
 
 const Signin = async (user: UserSigninModel, res: Response) => {
   try {
-    const userExist = await User.findOne().or([
-      { email: user.email },
-      { username: user.username },
-    ]);
+    const userExist = await userRepository.findByUsernameOrEmail(user.username, user.email);
 
     if (!userExist) {
       return res.status(404).json({
@@ -126,7 +114,7 @@ const Signin = async (user: UserSigninModel, res: Response) => {
     }
     
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error signing in!',
@@ -136,7 +124,7 @@ const Signin = async (user: UserSigninModel, res: Response) => {
 
 const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
   try {
-    const userExist = await User.findOne({ email: user.email });
+    const userExist = await userRepository.findOneByQueryObject({ email: user.email });
 
     if (!userExist) {
       return res.status(200).json({
@@ -166,7 +154,7 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -176,7 +164,7 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
 
 const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: Response) => {
   try {
-    const userExist = await User.findOne({ email: user.email });
+    const userExist = await userRepository.findOneByQueryObject({ email: user.email });
 
     if (!userExist) {
       return res.status(400).json({
@@ -215,7 +203,7 @@ const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: 
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -225,7 +213,7 @@ const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: 
 
 const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
   try {
-    const userExist = await User.findOne({ token: user.token, code: CONSTANTS.SIX_ZERO_DIGITS });
+    const userExist = await userRepository.findOneByQueryObject({ token: user.token, code: CONSTANTS.SIX_ZERO_DIGITS });
 
     if (!userExist) {
       return res.status(400).json({
@@ -270,7 +258,7 @@ const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -286,7 +274,7 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       imageURL = await uploadBase64Image(user.base64Image, CONSTANTS.PROFILE_IMAGE_FOLDER, context.user._id)
     }
 
-    const userExist = await User.findById(context.user._id)
+    const userExist = await userRepository.findById(context.user._id)
 
     if (!userExist) {
       return res.status(404).json({
@@ -322,7 +310,7 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       message: 'Successfully updated profile!',
     });
   } catch (error: any) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: error?.message || 'Internal Server Error',
@@ -332,7 +320,7 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
 
 const UpdateUserPassword = async (user: UserResetPasswordModel, context: ContextModel, res: Response) => {
   try {
-    const userExist = await User.findById(context.user._id);
+    const userExist = await userRepository.findById(context.user._id);
 
     if (!userExist) {
       return res.status(404).json({
@@ -370,7 +358,7 @@ const UpdateUserPassword = async (user: UserResetPasswordModel, context: Context
     }
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error updating password!',
@@ -380,7 +368,7 @@ const UpdateUserPassword = async (user: UserResetPasswordModel, context: Context
 
 const GetSelfProfile = async (context: ContextModel, res: Response) => {
   try {
-    const profile = await User.findById(context.user._id).select({password: 0, code: 0, validTill: 0});
+    const profile = await userRepository.findById(context.user._id).select({password: 0, code: 0, validTill: 0});
 
     return res.status(200).json({
       success: true,
@@ -388,7 +376,7 @@ const GetSelfProfile = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -405,10 +393,10 @@ const GetUserProfileById = async (id: string, context: ContextModel, res: Respon
     let profile = null;
 
     if((lastView && lastView.requested) || id == context.user._id){
-      profile = await User.findById(id).select(hideFields);  
+      profile = await userRepository.findById(id).select(hideFields);  
       lastViewRequested = true
     }else{
-      profile = await User.findById(id)
+      profile = await userRepository.findById(id)
                           .select({_id: 1, name: 1, username: 1, position: 1, desc: 1, languages: 1, toWork: 1, toHire: 1, public: 1, subsType: 1, imageURL: 1});    
     }
 
@@ -439,7 +427,7 @@ const GetUserProfileById = async (id: string, context: ContextModel, res: Respon
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -450,7 +438,7 @@ const GetUserProfileById = async (id: string, context: ContextModel, res: Respon
 const GetUserProfileByUsername = async (username: string, res: Response) => {
   try {
     const hideFields = {password: 0, code: 0, validTill: 0, paidDate: 0};
-    let profile = await User.findOne({username: username}).select(hideFields); 
+    let profile = await userRepository.findOneByQueryObject({username: username}).select(hideFields); 
     
     if(profile == null || profile == undefined){
       return res.status(404).json({
@@ -486,7 +474,7 @@ const GetUserProfileByUsername = async (username: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -496,7 +484,7 @@ const GetUserProfileByUsername = async (username: string, res: Response) => {
 
 const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
   try {
-    const userExist = await User.findById(context.user._id);
+    const userExist = await userRepository.findById(context.user._id);
 
     if (!userExist) {
       return res.status(404).json({
@@ -541,7 +529,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error updating profile privacy!',
@@ -557,20 +545,7 @@ const SearchProfiles = async (query: any, res: Response) => {
     const cityReg = (city && city?.length > 0) ? new RegExp(city, 'i') : queryStrReg;
     const countryReg = (country && country?.length > 0) ? new RegExp(country, 'i') : queryStrReg;
 
-    const users: any = await User.find({
-      $or: [
-        { name: { $regex: queryStrReg } },
-        { username: { $regex: queryStrReg } },
-        { position: { $regex: queryStrReg } },
-        { tags: { $regex: queryStrReg } },
-        { 'address.city': { $regex: cityReg } },
-        { 'address.country': { $regex: countryReg } } 
-      ]
-    })
-    .sort({ points: 'desc' })
-    .select({_id: 1, name: 1, imageURL: 1, public: 1, subsType: 1, position: 1, address: 1, toWork: 1, toHire: 1})
-    .limit(Number(limit))
-    .skip(Number(page * limit))
+    const users: any = await userRepository.findBySearchQueryParams(queryStrReg, cityReg, countryReg, limit, page);
 
     return res.status(200).json({
       success: true,
@@ -578,7 +553,7 @@ const SearchProfiles = async (query: any, res: Response) => {
       users: users
     });
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -594,7 +569,7 @@ const DeleteAccount = async (context: ContextModel, res: Response) => {
     await projectService.DeleteUserAllProjects(userId);
     await awardService.DeleteUserAllAwards(userId);
     await viewService.DeleteUserAllViews(userId);
-    await User.findByIdAndDelete(userId);
+    await userRepository.deleteById(userId);
     // TODO: do not delete views as we are not deleting subscriptions too
 
     return res.status(200).json({
@@ -602,13 +577,20 @@ const DeleteAccount = async (context: ContextModel, res: Response) => {
       message: 'Account deleted successfully'
     });
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
     });
   }
+}
 
+const UpdateUserById = (id: string, updatedObject: any) => {
+  return userRepository.findByIdAndUpdate(id, updatedObject);
+}
+
+const findById = (id: string) => {
+  return userRepository.findById(id);
 }
 
 export default {
@@ -625,5 +607,7 @@ export default {
   GetUserProfileByUsername,
   ProfilePublicToggle,
   SearchProfiles,
-  DeleteAccount
+  DeleteAccount,
+  UpdateUserById,
+  findById
 }

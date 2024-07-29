@@ -1,6 +1,6 @@
-write queries on repo module and call from there
 initialize mongodb on the vps server
 look for cloud storage to store images
 implement validators as middlewares
+update all documents by fetching them first, then modifying and saving, instead of making findByIdAndUpdate call
 
 figure out what to do with logs

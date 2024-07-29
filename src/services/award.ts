@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { Types } from 'mongoose';
 import { ContextModel } from '../models/context.model';
 import Award from '../schema/award';
+import awardRepository from '../repo/award';
 import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
 import { cloudinary } from '../config/cloudinary';
@@ -36,7 +37,7 @@ const CreateAward = async (award: AwardModel, context: ContextModel, res: Respon
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating award!',
@@ -58,7 +59,7 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
       updatedAward = {...updatedAward, imageURL: imageURL}
     }
     
-    await Award.findByIdAndUpdate(awardBody.id, updatedAward)
+    await awardRepository.findByIdAndUpdate(awardBody.id, updatedAward)
 
     return res.status(200).json({
       success: true,
@@ -66,7 +67,7 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -76,7 +77,7 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
 
 const GetAward = async (id: string, res: Response) => {
   try {
-    const award = await Award.findById(id);
+    const award = await awardRepository.findById(id);
 
     return res.status(200).json({
       success: true,
@@ -84,7 +85,7 @@ const GetAward = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -94,7 +95,7 @@ const GetAward = async (id: string, res: Response) => {
 
 const GetAwards = async (type: any, context: ContextModel, res: Response) => {
   try {
-    const awards = await Award.find({user: context.user._id}).sort({ year: 'asc' });
+    const awards = await awardRepository.findByQueryObject({user: context.user._id}).sort({ year: 'asc' });
 
     return res.status(200).json({
       success: true,
@@ -102,7 +103,7 @@ const GetAwards = async (type: any, context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -112,7 +113,7 @@ const GetAwards = async (type: any, context: ContextModel, res: Response) => {
 
 const DeleteAward = async (id: string, res: Response) => {
   try {
-    await Award.findByIdAndDelete(id);
+    await awardRepository.deleteById(id);
 
     const publicID = `${CONSTANTS.AWARD_IMAGE_FOLDER}/${id}-${CONSTANTS.AWARD_IMAGE_FOLDER}`
     
@@ -124,7 +125,7 @@ const DeleteAward = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error removing award!',
@@ -133,11 +134,15 @@ const DeleteAward = async (id: string, res: Response) => {
 };
 
 const GetUserAwards = async (id: string) => {
-  return Award.find({user: id}).sort({ year: 'desc' });
+  return awardRepository.findByQueryObject({user: id}).sort({ year: 'desc' });
 };
 
 const DeleteUserAllAwards = async (id: string) => {
-  return Award.deleteMany({user: id});
+  return awardRepository.deleteMultipleByQueryObject({user: id});
+};
+
+const findById = async (id: string) => {
+  return awardRepository.findById(id);
 };
 
 export default {
@@ -147,5 +152,6 @@ export default {
   GetAwards,
   DeleteAward,
   GetUserAwards,
-  DeleteUserAllAwards
+  DeleteUserAllAwards,
+  findById
 }

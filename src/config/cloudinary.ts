@@ -14,7 +14,7 @@ const connectCloudinary = async () => {
         });
 
     } catch(error) {
-        logger.error(error)
+        logger.error(JSON.stringify(error))
         process.exit(1)
     }
 }

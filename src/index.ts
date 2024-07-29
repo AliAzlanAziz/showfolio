@@ -36,7 +36,7 @@ app.use(cors());
 
 app.get('/', (req: Request, res: Response) => res.status(200).json({ message: 'Server running!'} ))
 
-app.use('/waitList', waitListRoutes)
+// app.use('/waitList', waitListRoutes)
 app.use('/user', userRoutes)
 app.use('/workInfo', workInfoRoutes)
 app.use('/project', projectRoutes)

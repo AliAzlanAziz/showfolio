@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import WorkInfo from "../schema/workInfo";
-import Project from "../schema/project";
-import Award from "../schema/award";
+import workInfoService from "../services/workInfo";
+import projectService from "../services/project";
+import awardService from "../services/award";
 import { serviceLogger } from "../config/logger";
 
 const logger = serviceLogger('isAuthorized.js')
@@ -15,7 +15,7 @@ export const isUsersWorkInfo = async (req: Request, res: Response, next: NextFun
             id = req.params.id
         }
 
-        const workInfo = await WorkInfo.findById(id)
+        const workInfo = await workInfoService.findById(id)
         if(!workInfo){
             return res.status(404).json({
                 success: false,
@@ -32,7 +32,7 @@ export const isUsersWorkInfo = async (req: Request, res: Response, next: NextFun
         
         return next();
     }catch(error){
-        logger.error(error)
+        logger.error(JSON.stringify(error))
         return res.status(500).json({
             success: false,
             message: "Internal Server Error!"
@@ -49,7 +49,7 @@ export const isUsersProject = async (req: Request, res: Response, next: NextFunc
             id = req.params.id
         }
 
-        const project = await Project.findById(id)
+        const project = await projectService.findById(id)
         if(!project){
             return res.status(404).json({
                 success: false,
@@ -82,7 +82,7 @@ export const isUsersAward = async (req: Request, res: Response, next: NextFuncti
             id = req.params.id
         }
 
-        const award = await Award.findById(id)
+        const award = await awardService.findById(id)
         if(!award){
             return res.status(404).json({
                 success: false,

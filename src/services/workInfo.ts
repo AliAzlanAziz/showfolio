@@ -9,6 +9,7 @@ import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
 import { cloudinary } from '../config/cloudinary';
 import { serviceLogger } from '../config/logger';
+import workInfoRepository from '../repo/workInfo'
 
 const logger = serviceLogger('service:workInfo.js')
 
@@ -57,7 +58,7 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating work info!',
@@ -74,7 +75,7 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
       });
     }
 
-    const workInfoPresent = await WorkInfo.findById(workInfoBody.id)
+    const workInfoPresent = await workInfoRepository.findById(workInfoBody.id)
 
     let updatedWorkInfo: any = {
       title: workInfoBody.title,
@@ -83,9 +84,9 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
       to: workInfoBody.to,
       desc: workInfoBody.desc,
       address: {
-          city: workInfoBody.address.city,
-          country: workInfoBody.address.country,
-          details: workInfoBody.address.details
+        city: workInfoBody.address.city,
+        country: workInfoBody.address.country,
+        details: workInfoBody.address.details
       },
     }
     
@@ -99,7 +100,7 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
       updatedWorkInfo = {...updatedWorkInfo, imageURL: imageURL}
     }
 
-    await WorkInfo.findByIdAndUpdate(workInfoBody.id, updatedWorkInfo)
+    await workInfoRepository.findByIdAndUpdate(workInfoBody.id, updatedWorkInfo)
 
     return res.status(200).json({
       success: true,
@@ -107,7 +108,7 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error creating work info!',
@@ -117,7 +118,7 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
 
 const GetWorkInfo = async (id: string, res: Response) => {
   try {
-    const workInfo = await WorkInfo.findById(id);
+    const workInfo = await workInfoRepository.findById(id);
 
     return res.status(200).json({
       success: true,
@@ -125,7 +126,7 @@ const GetWorkInfo = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -146,9 +147,9 @@ const GetWorkInfos = async (type: any, context: ContextModel, res: Response) => 
 
     let workInfos: any;
     if(type == 'ALL'){
-      workInfos = await WorkInfo.find({user: context.user._id}).sort({ type: 'asc', from: 'asc' });
+      workInfos = await workInfoRepository.findByQueryObject({user: context.user._id}).sort({ type: 'asc', from: 'asc' });
     }else{
-      workInfos = await WorkInfo.find({user: context.user._id, type: Number(type)}).sort({ from: 'asc' });
+      workInfos = await workInfoRepository.findByQueryObject({user: context.user._id, type: Number(type)}).sort({ from: 'asc' });
     }
 
     return res.status(200).json({
@@ -157,7 +158,7 @@ const GetWorkInfos = async (type: any, context: ContextModel, res: Response) => 
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -167,7 +168,7 @@ const GetWorkInfos = async (type: any, context: ContextModel, res: Response) => 
 
 const DeleteWorkInfo = async (id: string, res: Response) => {
   try {
-    await WorkInfo.findByIdAndDelete(id);
+    await workInfoRepository.deleteById(id);
 
     const publicID = `${CONSTANTS.WORKINFO_IMAGE_FOLDER}/${id}-${CONSTANTS.WORKINFO_IMAGE_FOLDER}`
     
@@ -179,7 +180,7 @@ const DeleteWorkInfo = async (id: string, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     return res.status(500).json({
       success: false,
       message: 'Error removing work info!',
@@ -194,7 +195,7 @@ const GetUserWorkInfos = async (id: string, type: number) => {
     return false;
   }
 
-  return WorkInfo.find({user: id, type: type}).sort({ from: 'asc' });
+  return workInfoRepository.findByQueryObject({user: id, type: type}).sort({ from: 'asc' });
 };
 
 const GetUserWorkInfosCount = async (id: string, type: number) => {
@@ -204,11 +205,15 @@ const GetUserWorkInfosCount = async (id: string, type: number) => {
     return false;
   }
 
-  return WorkInfo.find({user: id, type: type}).countDocuments();
+  return workInfoRepository.findByQueryObject({user: id, type: type}).countDocuments();
 };
 
 const DeleteUserAllWorkInfo = async (id: string) => {
-  return WorkInfo.deleteMany({user: id});
+  return workInfoRepository.deleteMultipleByQueryObject({user: id});
+};
+
+const findById = async (id: string) => {
+  return workInfoRepository.findById(id);
 };
 
 export default {
@@ -219,5 +224,6 @@ export default {
   DeleteWorkInfo,
   GetUserWorkInfos,
   GetUserWorkInfosCount,
-  DeleteUserAllWorkInfo
+  DeleteUserAllWorkInfo,
+  findById
 }

@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { ContextModel } from '../models/context.model';
 import Subscription from '../schema/subscription';
 import { Types } from 'mongoose';
 import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
-import User from '../schema/user';
+import userService from './user';
 import { serviceLogger } from '../config/logger';
 
 const logger = serviceLogger('service:stripe.js')
@@ -38,7 +37,7 @@ const Webhook = async (req: Request, res: Response) => {
       message: 'Successfully handled webhook!',
     });
   }catch(error){
-    logger.error(error);
+    logger.error(JSON.stringify(error));
     return res.status(400).json({
       error: error
     });
@@ -58,9 +57,9 @@ const handlePaymentIntentSuccess = async (metadata: any, amount: number) => {
 
     await newSubscription.save();
 
-    await User.findByIdAndUpdate(metadata.userId, {subsType: metadata.subscriptionType});
+    await userService.UpdateUserById(metadata.userId, {subsType: metadata.subscriptionType});
   } catch(error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
   }
 
 }

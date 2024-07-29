@@ -28,7 +28,7 @@ export const sendPasswordResetCodeMail = async (receiver: string, code: string) 
 
     return true
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     throw new Error('Error sending reset code to the email!');
   }
 }
@@ -48,7 +48,7 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
 
     return true
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     throw new Error('Error sending reset code to the email!');
   }
 }
@@ -68,7 +68,7 @@ export const sendWaitingListJoinedMail = async (receiver: string) => {
 
     return true
   } catch (error) {
-    logger.error(error)
+    logger.error(JSON.stringify(error))
     throw new Error('Error sending reset code to the email!');
   }
 }

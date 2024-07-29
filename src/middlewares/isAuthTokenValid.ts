@@ -20,7 +20,7 @@ export const isAuthTokenValid = async (req: Request, res: Response, next: NextFu
         return next();
         
     }catch(error){
-        logger.error(error)
+        logger.error(JSON.stringify(error))
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error!'

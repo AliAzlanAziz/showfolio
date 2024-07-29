@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { Types } from 'mongoose';
 import { ContextModel } from '../models/context.model';
 import View from '../schema/view';
+import viewRepository from '../repo/view';
 import { ViewModel } from '../models/view.model';
 import { addHours, isAfter } from 'date-fns';
 import { getCurrentUTCTime } from '../helper/utils';
@@ -18,7 +19,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
       })
     }
 
-    const oldView = await View.findOne({user: context.user._id, to: view.to}).sort({time: 'desc'});
+    const oldView = await viewRepository.findOneByQueryObject({user: context.user._id, to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       const viewTimeValidTill = addHours(oldView.time, 3);
@@ -53,7 +54,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
     });
 
   } catch (error) {
-    logger.error(error);
+    logger.error(JSON.stringify(error));
     return res.status(500).json({
       success: false,
       message: 'Error creating view!',
@@ -63,7 +64,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
 
 const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
-    const oldView = await View.findOne({user: context.user._id, to: view.to}).sort({time: 'desc'});
+    const oldView = await viewRepository.findOneByQueryObject({user: context.user._id, to: view.to}).sort({time: 'desc'});
 
     if(oldView){
       oldView.requested = true; 
@@ -76,7 +77,7 @@ const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: 
     });
 
   } catch (error) {
-    logger.error(error);
+    logger.error(JSON.stringify(error));
     return res.status(500).json({
       success: false,
       message: 'Error creating view!',
@@ -86,8 +87,8 @@ const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: 
 
 const UserViewsCount = async (context: ContextModel, res: Response) => {
   try {
-    let totalViewsPromise = View.countDocuments({to: context.user._id}); 
-    let uniqueViewsPromise = View.find({to: context.user._id}).distinct('user'); 
+    let totalViewsPromise = viewRepository.countDocumentsByQueryObject({to: context.user._id}); 
+    let uniqueViewsPromise = viewRepository.findByQueryObject({to: context.user._id}).distinct('user'); 
 
     const [totalViews, uniqueViews] = await Promise.all([totalViewsPromise, uniqueViewsPromise])
 
@@ -102,7 +103,7 @@ const UserViewsCount = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error);
+    logger.error(JSON.stringify(error));
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -112,47 +113,7 @@ const UserViewsCount = async (context: ContextModel, res: Response) => {
 
 const AllUserViewers = async (context: ContextModel, res: Response) => {
   try {
-    const viewers =  await View.aggregate([
-                            {
-                              $match: { to: context.user._id }
-                            },
-                            {
-                              $sort: { time: -1 }
-                            },
-                            {
-                              $group: {
-                                _id: '$user',
-                                doc: { $first: '$$ROOT' }
-                              }
-                            },
-                            {
-                              $replaceRoot: { newRoot: '$doc' }
-                            },
-                            {
-                              $lookup: {
-                                from: 'users',
-                                localField: 'user',
-                                foreignField: '_id',
-                                as: 'userDetails'
-                              }
-                            },
-                            {
-                              $unwind: '$userDetails'
-                            },
-                            {
-                              $project: {
-                                _id: 1,
-                                user: {
-                                  _id: '$userDetails._id',
-                                  name: '$userDetails.name',
-                                  imageURL: '$userDetails.imageURL',
-                                  public: '$userDetails.public',
-                                  subsType: '$userDetails.subsType'
-                                },
-                                requested: 1
-                              }
-                            }
-                        ]);
+    const viewers =  await viewRepository.aggregateAllViewersByToUserId(context.user._id);
     
     return res.status(200).json({
       success: true,
@@ -160,7 +121,7 @@ const AllUserViewers = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    logger.error(error);
+    logger.error(JSON.stringify(error));
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!'
@@ -169,11 +130,11 @@ const AllUserViewers = async (context: ContextModel, res: Response) => {
 };
 
 const GetLastViewOfUserId = async (id: string, context: ContextModel) => {
-  return View.findOne({to: id, user: context.user._id}).sort({time: 'desc'});
+  return viewRepository.findOneByQueryObject({to: id, user: context.user._id}).sort({time: 'desc'});
 };
 
 const DeleteUserAllViews = async (id: string) => {
-  return View.deleteMany({user: id});
+  return viewRepository.deleteMultipleByQueryObject({user: id});
 };
 
 export default {
