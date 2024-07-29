@@ -2,6 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import WorkInfo from "../schema/workInfo";
 import Project from "../schema/project";
 import Award from "../schema/award";
+import { serviceLogger } from "../config/logger";
+
+const logger = serviceLogger('isAuthorized.js')
 
 export const isUsersWorkInfo = async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -29,6 +32,7 @@ export const isUsersWorkInfo = async (req: Request, res: Response, next: NextFun
         
         return next();
     }catch(error){
+        logger.error(error)
         return res.status(500).json({
             success: false,
             message: "Internal Server Error!"

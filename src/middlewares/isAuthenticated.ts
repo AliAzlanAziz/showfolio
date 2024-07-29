@@ -3,6 +3,9 @@ import { JWTTokenPayloadModel } from '../models/jwtTokenPayload.model';
 import jwt from 'jsonwebtoken';
 import User from '../schema/user';
 import { ContextModel } from '../models/context.model';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('isAuthenticated.js')
 
 export const isAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -27,6 +30,7 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
         return next();
         
     }catch(error){
+        logger.error(error)
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error!'

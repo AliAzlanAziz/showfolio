@@ -6,6 +6,9 @@ import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
 import { cloudinary } from '../config/cloudinary';
 import { AwardModel } from '../models/award.model';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:award.js')
 
 const CreateAward = async (award: AwardModel, context: ContextModel, res: Response) => {
   try {
@@ -33,7 +36,7 @@ const CreateAward = async (award: AwardModel, context: ContextModel, res: Respon
     });
 
   } catch (error) {
-    console.log(error)
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating award!',
@@ -63,6 +66,7 @@ const UpdateAward = async (awardBody: AwardModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -80,6 +84,7 @@ const GetAward = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -97,6 +102,7 @@ const GetAwards = async (type: any, context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -118,6 +124,7 @@ const DeleteAward = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error removing award!',

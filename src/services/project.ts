@@ -7,6 +7,9 @@ import { ProjectModel } from '../models/project.model';
 import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
 import { cloudinary } from '../config/cloudinary';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:project.js')
 
 const CreateProject = async (project: ProjectModel, context: ContextModel, res: Response) => {
   try {
@@ -43,6 +46,7 @@ const CreateProject = async (project: ProjectModel, context: ContextModel, res: 
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -81,6 +85,7 @@ const UpdateProject = async (projectBody: ProjectModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating project!',
@@ -98,6 +103,7 @@ const GetProject = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -115,6 +121,7 @@ const GetProjects = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -136,6 +143,7 @@ const DeleteProject = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error removing project!',

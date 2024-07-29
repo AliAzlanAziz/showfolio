@@ -8,6 +8,9 @@ import { WorkInfoType } from '../enums/workInfoType.enum';
 import { CONSTANTS } from '../constants/constants';
 import { uploadBase64Image } from '../helper/uploadImage';
 import { cloudinary } from '../config/cloudinary';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:workInfo.js')
 
 const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, res: Response) => {
   try {
@@ -54,6 +57,7 @@ const CreateWorkInfo = async (workInfo: WorkInfoModel, context: ContextModel, re
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating work info!',
@@ -103,6 +107,7 @@ const UpdateWorkInfo = async (workInfoBody: WorkInfoModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error creating work info!',
@@ -120,6 +125,7 @@ const GetWorkInfo = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -151,6 +157,7 @@ const GetWorkInfos = async (type: any, context: ContextModel, res: Response) => 
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -172,6 +179,7 @@ const DeleteWorkInfo = async (id: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error removing work info!',

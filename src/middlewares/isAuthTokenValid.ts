@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('isAuthTokenValid.js')
 
 const validTokens: any = {
     "]=q;d-4o3r-04o]-SGHA*(QYH(T#*fw#:#$POj;soc.3wf-04DAJ": 1
@@ -17,6 +20,7 @@ export const isAuthTokenValid = async (req: Request, res: Response, next: NextFu
         return next();
         
     }catch(error){
+        logger.error(error)
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error!'

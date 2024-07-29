@@ -1,0 +1,7 @@
+write queries on repo module and call from there
+setup logger in all files
+initialize mongodb on the vps server
+look for cloud storage to store images
+implement validators as middlewares
+
+figure out what to do with logs

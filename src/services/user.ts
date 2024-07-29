@@ -19,6 +19,9 @@ import projectService from './project'
 import awardService from './award'
 import viewService from './view'
 import { WorkInfoType } from '../enums/workInfoType.enum';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:user.js')
 
 const saltRounds = 10;
 
@@ -77,6 +80,7 @@ const Signup = async (user: UserSignupModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error signing up!',
@@ -122,6 +126,7 @@ const Signin = async (user: UserSigninModel, res: Response) => {
     }
     
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error signing in!',
@@ -161,6 +166,7 @@ const ForgotPassword = async (user: UserResetPasswordModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -209,6 +215,7 @@ const ResetPasswordCodeVerification = async (user: UserResetPasswordModel, res: 
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -263,6 +270,7 @@ const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error sending reset code to the email!',
@@ -314,6 +322,7 @@ const UpdateProfile = async (user: UserModel, context: ContextModel, res: Respon
       message: 'Successfully updated profile!',
     });
   } catch (error: any) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: error?.message || 'Internal Server Error',
@@ -361,6 +370,7 @@ const UpdateUserPassword = async (user: UserResetPasswordModel, context: Context
     }
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error updating password!',
@@ -378,6 +388,7 @@ const GetSelfProfile = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -428,6 +439,7 @@ const GetUserProfileById = async (id: string, context: ContextModel, res: Respon
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -467,6 +479,7 @@ const GetUserProfileByUsername = async (username: string, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -521,6 +534,7 @@ const ProfilePublicToggle = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Error updating profile privacy!',
@@ -557,6 +571,7 @@ const SearchProfiles = async (query: any, res: Response) => {
       users: users
     });
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -580,6 +595,7 @@ const DeleteAccount = async (context: ContextModel, res: Response) => {
       message: 'Account deleted successfully'
     });
   } catch (error) {
+    logger.error(error)
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',

@@ -12,20 +12,9 @@ import subscriptionRoutes from './routes/subscription';
 import stripeRoutes from './routes/stripe';
 import connectCloudinary from './config/cloudinary';
 import { insertDummyData } from './dump/insert';
-import winston from 'winston';
+import { serviceLogger } from './config/logger';
 
-// TODO: SETUP WINSTON
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(), 
-    winston.format.json()
-  ),
-  transports: [
-    new (winston.transports.Console)({
-      format: winston.format.colorize({all: true})
-    })
-  ],
-});
+const logger = serviceLogger('index.js');
 
 dotenv.config({ path: __dirname + '/config/config.env' })
 
@@ -36,16 +25,17 @@ const app: Express = express()
 app.use('/stripe', express.raw({type: 'application/json'}), stripeRoutes)
 app.use(express.json({ limit: '15Mb' }));
 
-// Request logger
-// TODO: Separate it to some folder
 app.use((req, res, next)=>{
-  logger.info(`${res.statusCode} ${req.method} ${req.originalUrl}`);
+  if(process.env.NODE_ENV=='DEV'){
+    logger.info(`${res.statusCode} ${req.method} ${req.originalUrl}`);
+  }
   
   return next();
 })
+
 app.use(cors());
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => res.status(200).json({ message: 'Server running at Railway!'} ))
+app.get('/', (req: Request, res: Response) => res.status(200).json({ message: 'Server running!'} ))
 
 app.use('/waitList', waitListRoutes)
 app.use('/user', userRoutes)
@@ -55,8 +45,10 @@ app.use('/award', awardRoutes)
 app.use('/view', viewRoutes)
 app.use('/subscription', subscriptionRoutes)
 
-app.listen(process.env.PORT, async () => {
-  console.log(`Server ready at http://localhost:${process.env.PORT}`)
+const PORT = process.env.PORT;
+
+app.listen(PORT, async () => {
+  console.log(`Server ready at http://localhost:${PORT}`)
 })
 
 export default app;

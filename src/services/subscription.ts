@@ -6,6 +6,9 @@ import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
 import { getCurrentUTCTime } from '../helper/utils';
 import { SubscriptionReasonType } from '../enums/subscriptionReason.enum';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:subscription.js')
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -38,7 +41,7 @@ const CreatePaymentIntents = async (subscription: SubscriptionModel, context: Co
       paymentIntent: paymentIntent.client_secret,
     });
   } catch (error: any) {
-    console.log(error?.raw?.message)
+    logger.error(error?.raw?.message);
     return res.status(500).json({
       success: false,
       message: 'Error creating payment intents!',

@@ -5,6 +5,9 @@ import View from '../schema/view';
 import { ViewModel } from '../models/view.model';
 import { addHours, isAfter } from 'date-fns';
 import { getCurrentUTCTime } from '../helper/utils';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:view.js')
 
 const CreateView = async (view: ViewModel, context: ContextModel, res: Response) => {
   try {
@@ -50,6 +53,7 @@ const CreateView = async (view: ViewModel, context: ContextModel, res: Response)
     });
 
   } catch (error) {
+    logger.error(error);
     return res.status(500).json({
       success: false,
       message: 'Error creating view!',
@@ -72,6 +76,7 @@ const CreateRequestInView = async (view: ViewModel, context: ContextModel, res: 
     });
 
   } catch (error) {
+    logger.error(error);
     return res.status(500).json({
       success: false,
       message: 'Error creating view!',
@@ -97,6 +102,7 @@ const UserViewsCount = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
+    logger.error(error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!',
@@ -154,7 +160,7 @@ const AllUserViewers = async (context: ContextModel, res: Response) => {
     });
 
   } catch (error) {
-    console.log(error)
+    logger.error(error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error!'

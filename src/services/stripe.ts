@@ -5,6 +5,9 @@ import { Types } from 'mongoose';
 import * as dotenv from 'dotenv';
 import Stripe from 'stripe';
 import User from '../schema/user';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('service:stripe.js')
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -16,25 +19,18 @@ const Webhook = async (req: Request, res: Response) => {
     const reqBody = req.body.toString();
     const body = JSON.parse(reqBody);
 
-    console.log("reqBody")
-    console.log(reqBody)
-    console.log("signature")
-    console.log(signature)
-    console.log("process.env.STRIPE_WEBHOOK_SECRET_KEY")
-    console.log(process.env.STRIPE_WEBHOOK_SECRET_KEY)
-
-
     const event = stripe.webhooks.constructEvent(reqBody, signature, process.env.STRIPE_WEBHOOK_SECRET_KEY || '');    
 
     switch (event.type) {
       case 'payment_intent.succeeded':
-        console.log('payment_intent.succeeded')
+        logger.info('payment_intent.succeeded')
         await handlePaymentIntentSuccess(body.data.object.metadata, body.data.object.amount)
         break;
       case 'payment_intent.payment_failed':
+        logger.info('payment_intent.payment_failed')
         break;
       default:
-        console.log(`Unhandled event type ${event.type}`);
+        logger.info(`Unhandled event type ${event.type}`);
     }
 
     return res.status(200).send({
@@ -42,7 +38,7 @@ const Webhook = async (req: Request, res: Response) => {
       message: 'Successfully handled webhook!',
     });
   }catch(error){
-    console.log(`Webhook Error: ${error}`);
+    logger.error(error);
     return res.status(400).json({
       error: error
     });
@@ -64,7 +60,7 @@ const handlePaymentIntentSuccess = async (metadata: any, amount: number) => {
 
     await User.findByIdAndUpdate(metadata.userId, {subsType: metadata.subscriptionType});
   } catch(error) {
-    console.log(error)
+    logger.error(error)
   }
 
 }

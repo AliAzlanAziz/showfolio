@@ -4,6 +4,9 @@ import * as fs from 'fs';
 import { CONSTANTS } from '../constants/constants';
 import * as dotenv from 'dotenv';
 import path from 'path';
+import { serviceLogger } from '../config/logger';
+
+const logger = serviceLogger('mailer.js')
 
 dotenv.config({ path: __dirname + './../config/config.env' })
 
@@ -25,6 +28,7 @@ export const sendPasswordResetCodeMail = async (receiver: string, code: string) 
 
     return true
   } catch (error) {
+    logger.error(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
@@ -44,6 +48,7 @@ export const sendAfterPasswordResetMail = async (receiver: string) => {
 
     return true
   } catch (error) {
+    logger.error(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
@@ -63,6 +68,7 @@ export const sendWaitingListJoinedMail = async (receiver: string) => {
 
     return true
   } catch (error) {
+    logger.error(error)
     throw new Error('Error sending reset code to the email!');
   }
 }
