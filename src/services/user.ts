@@ -450,12 +450,19 @@ const GetUserProfileById = async (id: string, context: ContextModel, res: Respon
 const GetUserProfileByUsername = async (username: string, res: Response) => {
   try {
     const hideFields = {password: 0, code: 0, validTill: 0, paidDate: 0};
-    let profile = await User.findOne({username: username}).select(hideFields);  
+    let profile = await User.findOne({username: username}).select(hideFields); 
+    
+    if(profile == null || profile == undefined){
+      return res.status(404).json({
+        success: false,
+        message: 'Portfolio does not exist!'
+      })
+    }
    
-    if(profile == null || profile == undefined || !profile.public){
+    if(!profile.public){
       return res.status(400).json({
         success: false,
-        message: 'Either profile does not exist or is not-published!'
+        message: 'Portfolio is private!'
       })
     }
 
