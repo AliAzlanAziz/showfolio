@@ -4,7 +4,7 @@
 building this project for the buildspace sage s5 nights and weekends
 
 <br>
-note: mobile application react native github repo (soon will this repo be made private) have been made private
+note: mobile application react native github repo (soon will this repo be made private) has been made private
 
 ### week#01 idea+description
 one liner: a mobile app to make portfolio 
