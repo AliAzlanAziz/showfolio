@@ -234,13 +234,6 @@ const ResetPassword = async (user: UserResetPasswordModel, res: Response) => {
       });
     }
 
-    if (user.password != user.confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password does not match with confirm password!',
-      });
-    }
-
     const hash = bcrypt.hashSync(user.password, saltRounds);
 
     userExist.password = hash;
