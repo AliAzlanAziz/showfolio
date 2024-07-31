@@ -5,7 +5,7 @@ const findById = (id: string) => {
 }
 
 const findByIdAndUpdate = (id: string, updatedProject: any) => {
-  return Project.findByIdAndUpdate(id, updatedProject);
+  return Project.findByIdAndUpdate(id, updatedProject, { runValidators: true });
 }
 
 const findByQueryObject = (queryObj: any) => {

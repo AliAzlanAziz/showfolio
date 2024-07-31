@@ -5,7 +5,7 @@ const findById = (id: string) => {
 }
 
 const findByIdAndUpdate = (id: string, updatedWorkInfo: any) => {
-  return WorkInfo.findByIdAndUpdate(id, updatedWorkInfo);
+  return WorkInfo.findByIdAndUpdate(id, updatedWorkInfo, { runValidators: true });
 }
 
 const findByQueryObject = (queryObj: any) => {

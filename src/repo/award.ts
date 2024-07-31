@@ -5,7 +5,7 @@ const findById = (id: string) => {
 }
 
 const findByIdAndUpdate = (id: string, updatedAward: any) => {
-  return Award.findByIdAndUpdate(id, updatedAward);
+  return Award.findByIdAndUpdate(id, updatedAward, { runValidators: true });
 }
 
 const findByQueryObject = (queryObj: any) => {

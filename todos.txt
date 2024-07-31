@@ -1,7 +1,5 @@
-migrate data from atlas mongodb to vps mongodb
 look for cloud storage to store images
 implement validators as middlewares
-update all documents by fetching them first, then modifying and saving, instead of making findByIdAndUpdate call
 change backend url in web and mobile app from railway to vps one
 
 figure out what to do with logs
