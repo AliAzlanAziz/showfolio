@@ -1,0 +1,67 @@
+MongoDBv7.0.2 Setup At Hostinger VPS (Ubuntu@22 Cloud Panel):
+
+// Install
+1)
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+   --dearmor
+
+2) 
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+
+3)sudo apt-get update
+
+4)sudo apt-get install -y mongodb-org
+
+// Verify Installation and Start Mongodb
+5)sudo systemctl status mongod
+
+6)sudo systemctl enable mongod
+
+7)sudo systemctl restart mongod or sudo systemctl start mongod
+
+// Create User
+8)mongosh
+
+9)use admin
+
+10)db.createUser({  user: "<username>",  pwd: "<pwd>",  roles: [{ role: "root", db: "admin" }]  })
+
+// Edit mongodb configuration
+11)nano /etc/mongod.conf
+
+12)Add below lines to enable authentication;
+security:
+  authorization: enabled
+
+// Run commands given below to give mongodb user permission
+13)sudo chown -R mongodb:mongodb /var/lib/mongodb
+14)sudo chown mongodb:mongodb /tmp/mongodb-27017.sock
+
+15)sudo systemctl restart mongod
+
+// Connect To The MongoDB
+16)mongosh --port 27017 -u "<username>" -p "<pwd>" --authenticationDatabase "admin"
+or
+17)mongodb://<username>:<pwd>@127.0.0.1:27017/<datebase_name>?authSource=admin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
